@@ -1,0 +1,14 @@
+C:\Users\Adrian\Desktop\not gwent\bin\Debug\net8.0\not gwent.exe
+C:\Users\Adrian\Desktop\not gwent\bin\Debug\net8.0\not gwent.deps.json
+C:\Users\Adrian\Desktop\not gwent\bin\Debug\net8.0\not gwent.runtimeconfig.json
+C:\Users\Adrian\Desktop\not gwent\bin\Debug\net8.0\not gwent.dll
+C:\Users\Adrian\Desktop\not gwent\bin\Debug\net8.0\not gwent.pdb
+C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.AssemblyInfoInputs.cache
+C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.AssemblyInfo.cs
+C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.csproj.CoreCompileInputs.cache
+C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.dll
+C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\refint\not gwent.dll
+C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.pdb
+C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.genruntimeconfig.cache
+C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\ref\not gwent.dll
