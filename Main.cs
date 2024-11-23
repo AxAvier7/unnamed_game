@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-Console.WriteLine("Buenas querido usuario. Cuántos aventureros serán hoy?");
+﻿Console.WriteLine("Buenas querido usuario. Cuántos aventureros serán hoy?");
 int players = Convert.ToInt32(Console.ReadLine());
 if(players > 4 || players == 1)
 {
@@ -9,13 +7,13 @@ if(players > 4 || players == 1)
 }
 
 Console.WriteLine("Ya veo. Yo seré su \"guía\" en esta aventura. Si les preguntara cuales son vuestros nombres, que me responderían?");
-string[] playernames = new string[4];
+string[] playernames = new string[players];
 for (int i = 0; i < playernames.Length; i++)
 {
     playernames[i] = Console.ReadLine();
 }
 
-Console.WriteLine("Vale, ultimemos algunos detalles. Con cuántas fichas desean jugar");
+Console.WriteLine("Vale, ultimemos algunos detalles. Con cuántas fichas desean jugar?");
 int chips = Convert.ToInt32(Console.ReadLine());
 while (chips>5)
 {
@@ -23,37 +21,53 @@ while (chips>5)
     chips = Convert.ToInt32(Console.ReadLine());
 }
 
+
+
+
 int[,] playinglab = MazeGenerator(players, chips);
+PrintMatrix(playinglab);
 
 
 
 
 
-public int[,] MazeGenerator(int players, int chips) //metodo que genera el laberinto en el que se jugara
+int[,] MazeGenerator(int players, int chips) //metodo que genera el laberinto en el que se jugara
 {
     int size;
     int playersxchips = players*chips;
-    if (playersxchips>= 12)
-    {
-        size = 9;
-    }
-    else size = 8;
+
+    size= playersxchips >=12? 9 : 8;
+
     int[,] maze = new int[size,size];
 
-    CoordinatesRandomizer(maze);
+    var (x1,y1,x2,y2) = CoordinatesRandomizer(maze);
+    bool[,] walls = new bool[size,size];
+    walls[x1,y1] = walls[x2,y2] = true;
+
+    walls = PathFinder(walls, x1, y1, x2, y2);
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = 0; j < size; j++)
+        {
+            if(walls[i,j])
+            {
+                maze[i,j] = 1;
+            }
+        }
+    }
 
 
 
-
+    return maze;
 }
 
-int[,] CoordinatesRandomizer(int[,] maze) //metodo que recibe la matriz del laberinto y devuelve la misma matriz pero con una entrada y salida marcadas
+
+(int x1, int y1, int x2, int y2) CoordinatesRandomizer(int[,] maze) //metodo que recibe la matriz del laberinto y devuelve la misma matriz pero con una entrada y salida marcadas
 {    
     int rows = maze.GetLength(0);
     int columns = maze.GetLength(1);
-    int x1 =0; int y1 = 0; int x2 = 0; int y2 = 0;
-    
-    int[] coords = new int[2];
+    bool[,] booleanmaze = new bool[rows,columns];
+    int x1 =0,  y1 = 0, x2 = 0, y2 = 0;
     Random rng = new Random();
     
     int border = rng.Next(0,4); // 0: 1ra fila | 1: ultima fila | 2: 1ra columna | 3: ultima columna
@@ -106,7 +120,35 @@ int[,] CoordinatesRandomizer(int[,] maze) //metodo que recibe la matriz del labe
             break;
     }
 
-    maze[x1, y1] =1;
-    maze[x2, y2] =1;
-    return maze;
+    return (x1, y1, x2, y2);
 }
+
+bool[,] PathFinder(bool[,] walls, int x1, int y1, int x2, int y2)
+{
+    throw new NotImplementedException();
+}
+
+
+void PrintMatrix<T>(T[,] laberinto)
+{
+    int rows = laberinto.GetLength(0);
+    int columns = laberinto.GetLength(1);
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            Console.Write(laberinto[i, j] + "\t");
+        }
+        Console.WriteLine();
+    }
+}
+
+
+
+
+var ficha1 = new FichaPrototype(2, 5, "No soy una ficha");
+ficha1.Skill();
+ficha1.MostrarInformacion();
+
+//despues me pondre a crear mas fichas

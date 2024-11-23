@@ -12,3 +12,4 @@ C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\refint\not gwent.dll
 C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.pdb
 C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.genruntimeconfig.cache
 C:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\ref\not gwent.dll
+c:\Users\Adrian\Desktop\not gwent\obj\Debug\net8.0\not gwent.sourcelink.json
