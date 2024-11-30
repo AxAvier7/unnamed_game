@@ -7,10 +7,12 @@ if(players > 4 || players == 1)
 }
 
 Console.WriteLine("Ya veo. Yo seré su \"guía\" en esta aventura. Si les preguntara cuales son vuestros nombres, que me responderían?");
-string[] playernames = new string[players];
+List<NewPlayer> playerlist = new List<NewPlayer>();
 for (int i = 0; i < playernames.Length; i++)
 {
-    playernames[i] = Console.ReadLine();
+    Console.WriteLine($"Jugador {i + 1}, ingresa tu nombre:");
+    string playerName = Console.ReadLine();
+    playerList.Add(new ConcretePlayer(playerName));
 }
 
 Console.WriteLine("Vale, ultimemos algunos detalles. Con cuántas fichas desean jugar?");
@@ -41,21 +43,9 @@ int[,] MazeGenerator(int players, int chips) //metodo que genera el laberinto en
     int[,] maze = new int[size,size];
 
     var (x1,y1,x2,y2) = CoordinatesRandomizer(maze);
-    bool[,] walls = new bool[size,size];
-    walls[x1,y1] = walls[x2,y2] = true;
 
-    walls = PathFinder(walls, x1, y1, x2, y2);
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < size; j++)
-        {
-            if(walls[i,j])
-            {
-                maze[i,j] = 1;
-            }
-        }
-    }
-
+    MazeGenerator generator = new MazeGenerator(size, size);
+    maze = generator.GenerateMaze((x1, y1), (x2, y2));
 
 
     return maze;
@@ -123,11 +113,6 @@ int[,] MazeGenerator(int players, int chips) //metodo que genera el laberinto en
     return (x1, y1, x2, y2);
 }
 
-bool[,] PathFinder(bool[,] walls, int x1, int y1, int x2, int y2)
-{
-    throw new NotImplementedException();
-}
-
 
 void PrintMatrix<T>(T[,] laberinto)
 {
@@ -147,8 +132,12 @@ void PrintMatrix<T>(T[,] laberinto)
 
 
 
-var ficha1 = new FichaPrototype(2, 5, "No soy una ficha");
-ficha1.Skill();
-ficha1.MostrarInformacion();
+var ficha1 = new FichaPrototype(2, 3, "Una ficha de las normalitas");
+var ficha2 = new FichaPrototype(5, 4, "Una ficha muy rapida pero con un cooldown muy grande");
+var ficha3 = new FichaPrototype(1, 1, "La ficha mas basica y versatil que puede haber");
+var ficha4 = new FichaPrototype(3, 2, "Una ficha normal pero con un cooldown bajo");
+
+
+
 
 //despues me pondre a crear mas fichas

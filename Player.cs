@@ -7,3 +7,10 @@ public abstract class Player{
     
     public List<Ficha> fichas = new List<Ficha>();
 }
+
+public class NewPlayer : Player
+{
+    public NewPlayer(string name) : base(name)
+    {
+    }
+}
