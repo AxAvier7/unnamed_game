@@ -9,39 +9,12 @@ EditorBuildSettings:
     path: "Assets/Scenes/Men\xFA.unity"
     guid: 418273cfd1f8fac42a5509bda04e854e
   - enabled: 1
-    path: Assets/Scenes/Opciones.unity
-    guid: 3fea84449fe73534293081a752015ae9
-  - enabled: 1
-    path: Assets/Escenas/Juego.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Scenes/Audio.unity
-    guid: df94aef34a6cd29499f21d35d5c545d3
-  - enabled: 1
-    path: Assets/Scenes/Video.unity
+    path: Assets/Scenes/Settings.unity
     guid: 1a474c79883dc1d4d9c2bcc68089331a
   - enabled: 1
     path: "Assets/Scenes/Cr\xE9ditos.unity"
     guid: d617215172b9d5a428e8b2d3b39e6a0e
   - enabled: 1
-    path: Assets/Escenas/GanaMordor.unity
-    guid: 04c9aabc4c6601b4b8cad6f0ee0714e1
-  - enabled: 1
-    path: Assets/Escenas/GanaCDA.unity
-    guid: faabea52b94907e48b6bfc430e7a71f8
-  - enabled: 1
-    path: Assets/Escenas/Tutorial.unity
-    guid: 0c3c6ae5d03612349b7836e9d2c1f034
-  - enabled: 0
-    path: Assets/Escenas/Tutorial 2.unity
-    guid: 830f77c626acb4e499aa9b6e76adbf84
-  - enabled: 1
-    path: Assets/Escenas/Tutorial 3.unity
-    guid: 553abd651713a33499ea2266c826d877
-  - enabled: 1
-    path: Assets/Escenas/pantalla transicion.unity
-    guid: 99ef37f427118bc4881f0e3796c03eaf
-  - enabled: 1
-    path: Assets/Escenas/CardBuilder.unity
-    guid: 9e8cf788f76da5e4f8b212d56e332957
+    path: Assets/Scenes/Game.unity
+    guid: 2439ee8e3bc9af043b205c230763715d
   m_configObjects: {}

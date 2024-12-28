@@ -11,7 +11,6 @@ class Program
         Console.WriteLine("Ya veo. Yo seré su \"guía\" en esta aventura. Si les preguntara cuales son vuestros nombres, que me responderían?");
         List<NewPlayer> playerlist = GetPlayerNames(players);
         
-
         Console.WriteLine("Vale, ultimemos algunos detalles. Con cuántas fichas desean jugar?");
         int chips = GetChips();
 
@@ -62,7 +61,7 @@ class Program
 
     static int[,] MazeGenerator(int players, int chips) //metodo que genera el laberinto en el que se jugara
     {
-        int size = players*chips >= 12 ? 9 : 8;
+        int size = players*chips >= 12 ? 12 : 11;
         int[,] maze = new int[size,size];
         var (x1,y1,x2,y2) = CoordinatesRandomizer(maze);
         MazeGenerator generator = new MazeGenerator(size, size);
