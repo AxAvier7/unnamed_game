@@ -1,14 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
+    private bool hasTriggered = false;
 
-    void Start()
+    void Update()
     {
-        TriggerDialogue();
+        if (Input.GetKeyDown(KeyCode.Return) && !hasTriggered)
+        {
+            TriggerDialogue();
+            hasTriggered = true;
+        }
     }
 
     public void TriggerDialogue()

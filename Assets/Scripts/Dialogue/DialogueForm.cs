@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DialogueForm : MonoBehaviour
 {
@@ -9,9 +10,6 @@ public class DialogueForm : MonoBehaviour
     public Button submitButton;
 
     private int currentStep = 0;
-    private int players = 0;
-    private List<string> playerNames = new List<string>();
-    private int chips = 0;
 
     void Start()
     {
@@ -28,7 +26,7 @@ public class DialogueForm : MonoBehaviour
                 inputField.text = "";
                 break;
             case 1:
-                dialogueText.text = $"Jugador {playerNames.Count + 1}, ingresa tu nombre:";
+                dialogueText.text = $"Jugador {GameData.Instance.PlayerNames.Count + 1}, ingresa tu nombre:";
                 inputField.text = "";
                 break;
             case 2:
@@ -39,47 +37,92 @@ public class DialogueForm : MonoBehaviour
                 dialogueText.text = "¡Gracias! Disfruten su aventura.";
                 inputField.gameObject.SetActive(false);
                 submitButton.gameObject.SetActive(false);
+                Invoke("LoadSceneFour", 2f);
                 break;
         }
     }
 
     void HandleSubmit()
     {
-        string input = inputField.text;
+        string input = inputField.text.Trim();
 
         switch (currentStep)
         {
             case 0:
-                players = int.Parse(input);
-                if (players > 4 || players == 1)
+                if (int.TryParse(input, out int playersInput))
                 {
-                    dialogueText.text = "No pueden haber más de 4 jugadores. Introduce un número de jugadores menor a 4 y distinto de 1.";
-                    return;
+                    if (playersInput > 4 || playersInput == 1)
+                    {
+                        dialogueText.text = "No pueden haber más de 4 jugadores. Introduce un número de jugadores menor a 4 y distinto de 1.";
+                        return;
+                    }
+                    GameData.Instance.Players = playersInput;
+                    currentStep++;
                 }
-                currentStep++;
+                else
+                {
+                    dialogueText.text = "Por favor, introduce un número válido.";
+                }
                 break;
 
             case 1:
-                playerNames.Add(input);
-                if (playerNames.Count < players)
+                if (!string.IsNullOrEmpty(input))
                 {
-                    ShowQuestion();
-                    return;
+                    GameData.Instance.PlayerNames.Add(input);
+                    if (GameData.Instance.PlayerNames.Count < GameData.Instance.Players)
+                    {
+                        ShowQuestion();
+                        return;
+                    }
+                    currentStep++;
                 }
-                currentStep++;
+                else
+                {
+                    dialogueText.text = "Por favor, introduce un nombre válido.";
+                }
                 break;
 
             case 2:
-                chips = int.Parse(input);
-                if (chips > 5)
+                if (int.TryParse(input, out int chipsInput))
                 {
-                    dialogueText.text = "No admitimos más de 5 fichas. Introduce una cantidad de fichas menor a 5.";
-                    return;
+                    if (chipsInput > 5)
+                    {
+                        dialogueText.text = "No admitimos más de 5 fichas. Introduce una cantidad de fichas menor a 5.";
+                        return;
+                    }
+                    GameData.Instance.Chips = chipsInput;
+                    currentStep++;
                 }
-                currentStep++;
+                else
+                {
+                    dialogueText.text = "Por favor, introduce un número válido.";
+                }
                 break;
         }
 
         ShowQuestion();
     }
+
+    void LoadSceneFour()
+    {
+        SceneManager.LoadScene(4);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            ResetForm();
+        }
+    }
+
+    public void ResetForm()
+    {
+        currentStep = 0;
+        GameData.Instance.Players = 0;
+        GameData.Instance.PlayerNames.Clear();
+        GameData.Instance.Chips = 0;
+        ShowQuestion();
+    }
+
 }

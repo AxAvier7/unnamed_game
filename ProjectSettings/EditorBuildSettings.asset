@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: "Assets/Scenes/Cr\xE9ditos.unity"
     guid: d617215172b9d5a428e8b2d3b39e6a0e
   - enabled: 1
-    path: Assets/Scenes/Game.unity
+    path: Assets/Scenes/Creation.unity
     guid: 2439ee8e3bc9af043b205c230763715d
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 73823b7d380a8e34dbba6a4f596f29ed
   m_configObjects: {}
