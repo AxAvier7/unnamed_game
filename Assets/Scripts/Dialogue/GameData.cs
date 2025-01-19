@@ -1,24 +1,23 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-public class GameData
+public class GameData : MonoBehaviour
 {
-    private static GameData _instance;
-    public static GameData Instance
+    public static GameData Instance { get; private set; }
+    public int Players { get; set; }
+    public int Chips { get; set; }
+    public List<string> PlayerNames { get; private set; } = new List<string>();
+
+    private void Awake()
     {
-        get
+        if (Instance == null)
         {
-            if (_instance == null)
-                _instance = new GameData();
-            return _instance;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
-
-    private GameData()
-    {
-        PlayerNames = new List<string>();
-    }
-
-    public int Players { get; set; }
-    public List<string> PlayerNames { get; set; }
-    public int Chips { get; set; }
 }

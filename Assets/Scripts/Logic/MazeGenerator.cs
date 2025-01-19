@@ -15,7 +15,7 @@ public class MazeGenerator
         maze = new int[height, width];
     }
 
-    //metodo para generar el laberito
+    //metodo para generar el laberinto
     public int[,] GenerateMaze((int x, int y) start, (int x, int y) end)
     {
         //inicializo todas las casillas como paredes excepto la entrada y la salida
@@ -23,20 +23,10 @@ public class MazeGenerator
         {
             for (int j = 0; j < width; j++)
             {
-                if (i == 0 || i == height - 1 || j == 0 || j == width - 1)
-                {
-                    //si la casilla es un borde y es la entrada o la salida se marca como 1, sino 0
-                    maze[i, j] = (i == start.y && j == start.x) || (i == end.y && j == end.x) ? 1 : 0;
-                }
-                else
-                {
-                    maze[i, j] = 0;
-                }
+                maze[i, j] = IsBorder(j,i) ? 0 : 0;
             }
         }
-
-        GeneratePath(start.x, start.y);
-
+        GeneratePath(start.x, start.y, end);
         EnsureConnection(end);
 
         maze[start.y, start.x] = 1;
@@ -46,12 +36,17 @@ public class MazeGenerator
     }
 
     //metodo que traza un camino
-    private void GeneratePath(int x, int y)
+    private bool GeneratePath(int x, int y, (int x, int y) end)
     {
         maze[y, x] = 1;
+        if (x == end.x && y == end.y) return true;
 
         //todas las posibles direcciones
-        var directions = new List<(int dx, int dy)> { (0, -1), (0, 1), (-1, 0), (1, 0) };
+        var directions = new List<(int dx, int dy)> { 
+            (Math.Sign(end.x - x), 0), (0, Math.Sign(end.y - y)), 
+            (-1, 0), (1, 0),
+            (0, -1), (0, 1) 
+        };
         Shuffle(directions);
 
         //probamos el movimiento en cada direccion
@@ -67,30 +62,36 @@ public class MazeGenerator
                 maze[y + dy, x + dx] = 1;
 
                 //llama recursivamente al metodo para seguir generando el camino
-                GeneratePath(nx, ny);
+                if(GeneratePath(nx, ny, end)) return true;
             }
         }
+        return false;
     }
 
     //metodo que revisa si la casilla de salida esta conectada con el resto
     private void EnsureConnection((int x, int y) end)
     {
-        // Si la casilla de salida no está conectada busca casillas cercanas transitables para conectarla
-        if (maze[end.y, end.x] == 0)
+        if(maze[end.y, end.x] == 1) return;
+
+        var directions = new List<(int dx, int dy)>
+        {(-1, 0), (1, 0), (0, -1), (0, 1)};
+
+        //si la salida no está conectada busca casillas cercanas transitables para conectarla
+        foreach (var (dx, dy) in directions)
         {
-            for (int dy = -1; dy <= 1; dy++)
+            int nx = end.x + dx;
+            int ny = end.y + dy;
+
+            if (IsInBounds(nx, ny) && !IsBorder(nx, ny))
             {
-                for (int dx = -1; dx <= 1; dx++)
-                {
-                    int nx = end.x + dx, ny = end.y + dy;
-                    if (IsInBounds(nx, ny) && maze[ny, nx] == 1)
-                    {
-                        maze[end.y, end.x] = 1;
-                        return;
-                    }
-                }
+                maze[ny, nx] = 1;
+                maze[end.y, end.x] = 1;
+                return;
             }
         }
+
+        //de no encuentrar un camino cercano, crea uno
+        GeneratePath(end.x, end.y, end);    
     }
 
     private void Shuffle<T>(IList<T> list)
