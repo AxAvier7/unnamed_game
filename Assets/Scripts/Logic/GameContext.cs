@@ -5,7 +5,7 @@ public class GameContext : MonoBehaviour
 {
     public static GameContext Instance { get; private set; }
 
-    public int[,] maze;
+    public Casilla[,] maze;
     public List<Player> players;
     public int turn;
 
@@ -19,18 +19,12 @@ public class GameContext : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
         players = new List<Player>();
         turn = 0;
     }
 
-    public void SetMaze(int[,] newMaze)
+    public void SetMaze(Casilla[,] newMaze)
     {
         maze = newMaze;
-    }
-
-    public Player GetCurrentPlayer()
-    {
-        return players[turn % players.Count];
     }
 }

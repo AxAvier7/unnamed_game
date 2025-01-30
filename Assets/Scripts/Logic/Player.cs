@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
-public abstract class Player{
+public abstract class Player
+{
     public string name;    
     public List<Ficha> fichas;
     public Player(string name)

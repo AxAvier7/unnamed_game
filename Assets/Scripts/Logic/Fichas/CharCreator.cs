@@ -17,17 +17,14 @@ public class CharacterCreator : MonoBehaviour
 
     public GameData gameData;
     public GameContext gameContext;
+    public MazeController mazeController;
     private List<Color> playerColors = new List<Color> {Color.red, Color.blue, Color.green, Color.yellow};
 
     void Start()
     {
         gameData = GameData.Instance;
         gameContext = GameContext.Instance;
-        if (gameContext == null)
-        {
-            Debug.LogError("GameContext no está asignado.");
-            return;
-        }
+        if (gameContext == null)    return;
         if (gameContext.players == null)
         {
             gameContext.players = new List<Player>();
@@ -64,28 +61,28 @@ public class CharacterCreator : MonoBehaviour
         newFichaUI.GetComponent<Image>().color = playerColors[currentPlayerIndex];
     }
 
-Ficha CreateFichaByType(string type)
-{
-    switch (type)
+    Ficha CreateFichaByType(string type)
     {
-        case "NormieChip":
-            return new NormieChip(5, 2, "Normie");
-        case "CooldownChip":
-            return new CooldownChip(4, 5, "Cooldown");
-        case "SpeedChip":
-            return new SpeedChip(6, 3, "Speed");
-        case "InvisibilityChip":
-            return new InvisibilityChip(5, 6, "Invisibility");
-        case "ShieldChip":
-            return new ShieldChip(2, 5, "Shield");
-        case "TeleportChip":
-            return new TeleportChip(4, 7, "Teleport");
-        case "TrapChip":
-            return new TrapChip(4, 6, "Trap");
-        default:
-            return new NormieChip(5, 2, "Default");
+        switch (type)
+        {
+            case "NormieChip":
+                return new NormieChip(5, 2, "Normie");
+            case "CooldownChip":
+                return new CooldownChip(4, 5, "Cooldown");
+            case "SpeedChip":
+                return new SpeedChip(6, 3, "Speed");
+            case "InvisibilityChip":
+                return new InvisibilityChip(5, 6, "Invisibility");
+            case "ShieldChip":
+                return new ShieldChip(2, 5, "Shield");
+            case "TeleportChip":
+                return new TeleportChip(4, 7, "Teleport");
+            case "TrapChip":
+                return new TrapChip(4, 6, "Trap");
+            default:
+                return new NormieChip(5, 2, "Default");
+        }
     }
-}
 
     void ConfirmSelection()
     {
@@ -122,13 +119,15 @@ Ficha CreateFichaByType(string type)
     void StartGame()
     {
         Debug.Log("Todos los jugadores han seleccionado sus fichas. Comienza el juego.");
-        foreach (var player in players)
+        foreach(var player in players)
         {
             Debug.Log($"Jugador: {player.name}");
-            foreach (var ficha in player.fichas)
+            foreach(var ficha in player.fichas)
             {
                 Debug.Log($"Ficha: {ficha.label}, Velocidad: {ficha.speed}, Recarga: {ficha.cooldown}");
             }
         }
-    }
+        if(mazeController != null && gameContext!=null)
+            mazeController.PlaceFichasInMaze();
+        }
 }

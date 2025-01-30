@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class Ficha //esta es la clase que define a las fichas basicas. Con esta creare a fichas que no tengan ninguna Habilidad
+public abstract class Ficha //esta es la clase que define a las fichas basicas. Con esta creare a fichas que no tengan ninguna habilidad
 {
     public int speed;
     public int cooldown;
@@ -26,6 +26,7 @@ public abstract class Ficha //esta es la clase que define a las fichas basicas. 
         currentSteps = 0;
         moveConfirmation = false;
     }
+
     public void MostrarInformacion()
     {
         Debug.Log($"Velocidad: {speed}, Tiempo de recarga: {cooldown}, Etiqueta: {label}");

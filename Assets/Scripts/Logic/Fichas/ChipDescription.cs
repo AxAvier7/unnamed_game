@@ -16,10 +16,6 @@ public class ChipDescription : MonoBehaviour, IPointerEnterHandler, IPointerExit
             descriptionInstance = Instantiate(descriptionPrefab, FindObjectOfType<Canvas>().transform);
             descriptionInstance.SetActive(false);
         }
-        else
-        {
-            Debug.LogWarning("descriptionPrefab no está asignado en el Inspector.");
-        }
     }
 
     void Update()
@@ -35,7 +31,6 @@ public class ChipDescription : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if(!isActive)
         {        
-            Debug.Log("Mouse Entered");
             if (descriptionInstance != null)
             {
                 descriptionInstance.SetActive(true);
@@ -43,11 +38,10 @@ public class ChipDescription : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 isActive = true;
             }
         }    
-}
+    }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Mouse Exited");
         if (descriptionInstance != null)
         {
             descriptionInstance.SetActive(false);

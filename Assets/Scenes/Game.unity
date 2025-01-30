@@ -312,6 +312,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1198676096}
+  - {fileID: 1685738221}
   - {fileID: 1842376297}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -372,6 +373,7 @@ GameObject:
   - component: {fileID: 265341644}
   - component: {fileID: 265341643}
   - component: {fileID: 265341647}
+  - component: {fileID: 265341648}
   m_Layer: 5
   m_Name: TeleportChip
   m_TagString: Untagged
@@ -410,7 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Testeo
+  description: /tp
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &265341644
 MonoBehaviour:
@@ -507,6 +509,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &265341648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265341641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d1455d92a747f4c825e327a5b30d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &306988975
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,6 +535,7 @@ GameObject:
   - component: {fileID: 306988978}
   - component: {fileID: 306988977}
   - component: {fileID: 306988981}
+  - component: {fileID: 306988982}
   m_Layer: 5
   m_Name: TrapChip
   m_TagString: Untagged
@@ -559,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Testeo
+  description: Truco o trato
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &306988978
 MonoBehaviour:
@@ -656,6 +671,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &306988982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306988975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d1455d92a747f4c825e327a5b30d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &480472446
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,6 +697,7 @@ GameObject:
   - component: {fileID: 480472450}
   - component: {fileID: 480472451}
   - component: {fileID: 480472452}
+  - component: {fileID: 480472453}
   m_Layer: 5
   m_Name: SpeedChip
   m_TagString: Untagged
@@ -790,7 +818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Testeo
+  description: Una ficha peculiarmente rapida
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &480472452
 MonoBehaviour:
@@ -805,6 +833,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &480472453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480472446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d1455d92a747f4c825e327a5b30d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &753224583
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,6 +859,7 @@ GameObject:
   - component: {fileID: 753224585}
   - component: {fileID: 753224588}
   - component: {fileID: 753224589}
+  - component: {fileID: 753224590}
   m_Layer: 5
   m_Name: InvisibilityChip
   m_TagString: Untagged
@@ -939,7 +980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Testeo
+  description: No deberias estar viendo esto
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &753224589
 MonoBehaviour:
@@ -954,6 +995,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &753224590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753224583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d1455d92a747f4c825e327a5b30d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &809917122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,6 +1150,7 @@ GameObject:
   - component: {fileID: 861071812}
   - component: {fileID: 861071814}
   - component: {fileID: 861071815}
+  - component: {fileID: 861071816}
   m_Layer: 5
   m_Name: NormieChip
   m_TagString: Untagged
@@ -1217,8 +1271,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Testeo, esta es una chipa normal Testeo, esta es una chipa normal
+  description: Una ficha normalita
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
+--- !u!114 &861071816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861071810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d1455d92a747f4c825e327a5b30d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &896349532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,6 +1378,7 @@ GameObject:
   - component: {fileID: 1099043814}
   - component: {fileID: 1099043815}
   - component: {fileID: 1099043816}
+  - component: {fileID: 1099043817}
   m_Layer: 5
   m_Name: CooldownChip
   m_TagString: Untagged
@@ -1432,7 +1499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Testeo
+  description: Una ficha que se reduce su cooldown
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &1099043816
 MonoBehaviour:
@@ -1447,6 +1514,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &1099043817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099043810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d1455d92a747f4c825e327a5b30d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1168728500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1618,6 +1697,7 @@ MonoBehaviour:
   gameContext: {fileID: 0}
   fichaPrefab: {fileID: 861071810}
   mazeGrid: {fileID: 1198676096}
+  tokensParent: {fileID: 1685738221}
 --- !u!1 &1247757600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,6 +1742,7 @@ MonoBehaviour:
   confirmButton: {fileID: 1597004186}
   gameData: {fileID: 0}
   gameContext: {fileID: 0}
+  mazeController: {fileID: 1198676099}
 --- !u!4 &1247757602
 Transform:
   m_ObjectHideFlags: 0
@@ -1691,6 +1772,7 @@ GameObject:
   - component: {fileID: 1420087490}
   - component: {fileID: 1420087493}
   - component: {fileID: 1420087494}
+  - component: {fileID: 1420087495}
   m_Layer: 5
   m_Name: ShieldChip
   m_TagString: Untagged
@@ -1811,7 +1893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Testeo
+  description: Lo que usan los cobardes en los souls
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &1420087494
 MonoBehaviour:
@@ -1826,6 +1908,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
+--- !u!114 &1420087495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420087488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d1455d92a747f4c825e327a5b30d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1427886692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,6 +2085,41 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 300, y: -490}
   m_SizeDelta: {x: 200, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1685738220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1685738221}
+  m_Layer: 5
+  m_Name: TokensParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1685738221
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685738220}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 118587513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 420, y: 0}
+  m_SizeDelta: {x: 1080, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1842376296
 GameObject:

@@ -31,7 +31,6 @@ public class MazeGenerator
 
         maze[start.y, start.x] = 1;
         maze[end.y, end.x] = 1;
-
         return maze;
     }
 
