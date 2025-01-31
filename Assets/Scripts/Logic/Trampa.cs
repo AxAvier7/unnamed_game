@@ -1,15 +1,27 @@
-public abstract class Trampa
+using UnityEngine;
+
+public class CasillaTrampa : Casilla
 {
-    public string name;
-    public string description;
-    public int modifier;
-    public bool isTriggered;
-    
-    public Trampa(string name, string description, int modifier)
+    public string Nombre { get; private set; }
+    public string Descripcion { get; private set; }
+    public int Modificador { get; private set; }
+    public bool Activada { get; private set; }
+
+    public CasillaTrampa(Vector2Int position, bool esTransitable, string nombre, string descripcion, int modificador)
+        : base(position, esTransitable, esTrampa: true)
     {
-        this.name = name;
-        this.description = description;
-        this.modifier = modifier;
+        Nombre = nombre;
+        Descripcion = descripcion;
+        Modificador = modificador;
+        Activada = false;
     }
-    public abstract void Trap();
+
+    public void ActivarTrampa()
+    {
+        if (!Activada)
+        {
+            Activada = true;
+            Debug.Log($"¡Trampa {Nombre} activada en la posición {Position}! {Descripcion}");
+        }
+    }
 }

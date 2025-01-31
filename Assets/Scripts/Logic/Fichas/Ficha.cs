@@ -67,7 +67,7 @@ public class InvisibilityChip : Ficha
 
     public override void Skill()
     {
-        Console.WriteLine("El jugador se vuelve invisible temporalmente.");
+        Debug.Log("El jugador se vuelve invisible temporalmente.");
     }
 }
 
@@ -77,7 +77,7 @@ public class ShieldChip : Ficha
 
     public override void Skill()
     {
-        Console.WriteLine("Escudo activado, protegiendo al jugador.");
+        Debug.Log("Escudo activado, protegiendo al jugador.");
     }
 }
 
@@ -87,7 +87,7 @@ public class TeleportChip : Ficha
 
     public override void Skill()
     {
-        Console.WriteLine("El jugador ha sido teletransportado.");
+        Debug.Log("El jugador ha sido teletransportado.");
     }
 }
 
@@ -97,6 +97,6 @@ public class TrapChip : Ficha
 
     public override void Skill()
     {
-        Console.WriteLine("Trampa colocada, ralentizando a los enemigos.");
+        Debug.Log("Trampa colocada, ralentizando a los enemigos.");
     }
 }

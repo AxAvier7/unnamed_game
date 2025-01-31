@@ -36,8 +36,8 @@ public class Maze : MonoBehaviour
             for (int y = 0; y < size; y++)
             {
                 bool esTransitable = generatedMaze[x, y] == 1;
-                bool esInicio = (y == x1 && x == y1);
-                bool esSalida = (y == x2 && x == y2);
+                bool esInicio = (x == x1 && y == y1);
+                bool esSalida = (x == x2 && y == y2);
                 maze[x, y] = new Casilla(new Vector2Int(x, y), esTransitable, false, esInicio, esSalida);
                 if(!esInicio && !esSalida && esTransitable && currentTraps<3)
                 {

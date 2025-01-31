@@ -23,21 +23,21 @@ public class MazeGenerator
         {
             for (int j = 0; j < width; j++)
             {
-                maze[i, j] = IsBorder(j,i) ? 0 : 0;
+                maze[i, j] = 0;
             }
         }
         GeneratePath(start.x, start.y, end);
         EnsureConnection(end);
 
-        maze[start.y, start.x] = 1;
-        maze[end.y, end.x] = 1;
+        maze[start.x, start.y] = 1;
+        maze[end.x, end.y] = 1;
         return maze;
     }
 
     //metodo que traza un camino
     private bool GeneratePath(int x, int y, (int x, int y) end)
     {
-        maze[y, x] = 1;
+        maze[x, y] = 1;
         if (x == end.x && y == end.y) return true;
 
         //todas las posibles direcciones
@@ -56,9 +56,9 @@ public class MazeGenerator
             int ny = y + 2 * dy;
 
             //revisa si la casilla esta en los limites de la matriz, no es un borde y esta sin recorrer
-            if (IsInBounds(nx, ny) && maze[ny, nx] == 0 && !IsBorder(nx, ny))
+            if (IsInBounds(nx, ny) && maze[nx, ny] == 0 && !IsBorder(nx, ny))
             {
-                maze[y + dy, x + dx] = 1;
+                maze[x + dx, y + dy] = 1;
 
                 //llama recursivamente al metodo para seguir generando el camino
                 if(GeneratePath(nx, ny, end)) return true;
@@ -70,7 +70,7 @@ public class MazeGenerator
     //metodo que revisa si la casilla de salida esta conectada con el resto
     private void EnsureConnection((int x, int y) end)
     {
-        if(maze[end.y, end.x] == 1) return;
+        if(maze[end.x, end.y] == 1) return;
 
         var directions = new List<(int dx, int dy)>
         {(-1, 0), (1, 0), (0, -1), (0, 1)};
@@ -83,8 +83,8 @@ public class MazeGenerator
 
             if (IsInBounds(nx, ny) && !IsBorder(nx, ny))
             {
-                maze[ny, nx] = 1;
-                maze[end.y, end.x] = 1;
+                maze[nx, ny] = 1;
+                maze[end.x, end.y] = 1;
                 return;
             }
         }

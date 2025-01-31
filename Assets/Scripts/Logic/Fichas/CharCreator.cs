@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class CharacterCreator : MonoBehaviour
 {
     public GameObject characterPanel;
+    public GameObject CoordsPanel;
     public Transform selectedFichasContainer;
     public GameObject fichaPrefab;
     public List<Button> fichaButtons;
@@ -118,6 +119,8 @@ public class CharacterCreator : MonoBehaviour
 
     void StartGame()
     {
+        if(CoordsPanel != null)
+            CoordsPanel.SetActive(true);
         Debug.Log("Todos los jugadores han seleccionado sus fichas. Comienza el juego.");
         foreach(var player in players)
         {
