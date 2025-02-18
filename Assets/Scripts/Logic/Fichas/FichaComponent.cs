@@ -9,14 +9,5 @@ public class FichaComponent : MonoBehaviour
     {
         FichaData = ficha;
         CurrentCasilla = casilla;
-
-        if (FichaData == null)
-        {
-            Debug.LogError($"FichaData es null en {gameObject.name}.");
-        }
-        else
-        {
-            Debug.Log($"Ficha {FichaData.label} inicializada en {gameObject.name}.");
-        }
     }
 }

@@ -16,22 +16,8 @@ public class FichaController : MonoBehaviour
     {
         fichaComponent = component;
         fichaData = component.FichaData;
-
-        if (fichaData == null)
-        {
-            Debug.LogError("FichaData no está asignada en FichaComponent.");
-            return;
-        }
-
         casillaActual = transform.parent.GetComponent<Casilla>();
         mazeController = MazeController.Instance;
-
-        if (casillaActual == null || mazeController == null)
-        {
-            Debug.LogError("Error de inicialización en FichaController.");
-            return;
-        }
-
         moveButton.onClick.AddListener(TryMove);
     }
 
@@ -72,6 +58,17 @@ public class FichaController : MonoBehaviour
         transform.SetParent(nuevaCasilla.transform);
         transform.localPosition = Vector3.zero;
         casillaActual = nuevaCasilla;
+        Vector2Int coordenadasFicha = nuevaCasilla.Coordenadas;
+        fichaData.currentPosition = coordenadasFicha;
+        if (TrapManager.Instance.HayTrampaEn(coordenadasFicha, out CasillaTrampa trampa))
+        {
+            FichaComponent fichaComponent = GetComponent<FichaComponent>();
+            if (fichaComponent != null)
+            {
+                trampa.ActivarTrampa(fichaComponent);
+                TrapManager.Instance.ShowTrapEffect($"¡Trampa: {trampa.efectoTrampa}!");
+            }
+        }
         if (nuevaCasilla.EsSalida)
         {
             string nombreJugador = "Jugador Desconocido";
@@ -84,14 +81,6 @@ public class FichaController : MonoBehaviour
                 }
             }
             Victory.Instance.ShowVictory(nombreJugador);
-        }
-
-        CasillaTrampa trampa = nuevaCasilla as CasillaTrampa;
-        if (trampa != null)
-        {
-            Debug.Log("A");
-            FichaComponent fichaComponent = GetComponent<FichaComponent>();
-            trampa.ActivarTrampa(fichaComponent, mazeController);        
         }
         Debug.Log($"Ficha {fichaData.label} movida a casilla ({nuevaCasilla.Coordenadas.x}, {nuevaCasilla.Coordenadas.y}).");
     }

@@ -113,6 +113,7 @@ public class Maze : MonoBehaviour //script donde se genera la parte visual del l
 
     void VisualizeMaze(Casilla[,] maze)//metodo con el que se muestra en la escena de Juego el laberinto
     {
+        TrapManager.Instance.trampas.Clear();
         foreach (Transform child in mazeGrid)
         {
             Destroy(child.gameObject);
@@ -128,41 +129,41 @@ public class Maze : MonoBehaviour //script donde se genera la parte visual del l
             for (int y = 0; y < maze.GetLength(1); y++)
             {
                 Casilla casilla = maze[x, y];
-                GameObject prefab = casilla.EsTransitable ? pathPrefab : wallPrefab;
-                GameObject cell = Instantiate(prefab, mazeGrid);
-                Casilla casillaVisual = cell.GetComponent<Casilla>();
-                if (casillaVisual != null)
+                GameObject prefab;
+
+                if(casilla is CasillaTrampa)
                 {
+                    prefab = trapPrefab;
+                    GameObject trapCell = Instantiate(prefab, mazeGrid);
+                    CasillaTrampa casillaTrampa = trapCell.GetComponent<CasillaTrampa>();
+                    casillaTrampa.Coordenadas = new Vector2Int(x, y);
+                    casillaTrampa.EsTransitable = casilla.EsTransitable;
+                    TrapManager.Instance.RegistrarTrampa(new Vector2Int(x, y), casillaTrampa);
+                    trapCell.GetComponent<Image>().color = Color.magenta;
+                    Debug.Log($"Casilla trampa en ({x}, {y})");
+
+                }
+                else
+                {
+                    prefab = casilla.EsTransitable ? pathPrefab : wallPrefab;
+                    GameObject cell = Instantiate(prefab, mazeGrid);
+                    cell.GetComponent<Casilla>().Coordenadas = new Vector2Int(x, y);
+                    Casilla casillaVisual = cell.GetComponent<Casilla>();
                     casillaVisual.Coordenadas = new Vector2Int(x, y);
                     casillaVisual.EsInicio = casilla.EsInicio;
                     casillaVisual.EsSalida = casilla.EsSalida;
-                    casillaVisual.EsTrampa = casilla.EsTrampa;
                     casillaVisual.EsTransitable = casilla.EsTransitable;
-                }
-                if (casilla is CasillaTrampa)
-                {
-                    CasillaTrampa trampa = cell.AddComponent<CasillaTrampa>();
-                    trampa.Coordenadas = casilla.Coordenadas;
-                    trampa.EsTrampa = true;
-                    trampa.EsTransitable = casilla.EsTransitable;
-                    cell.GetComponent<Image>().color = Color.magenta;
 
-                }
-
-                if (casilla.EsInicio)
-                {
-                    cell.GetComponent<Image>().color = Color.red;
-                    Debug.Log($"Casilla de inicio en ({x}, {y})");
-                }
-                else if (casilla.EsSalida)
-                {
-                    cell.GetComponent<Image>().color = Color.green;
-                    Debug.Log($"Casilla de salida en ({x}, {y})");
-                }
-                else if (casilla.EsTrampa)
-                {
-                    cell.GetComponent<Image>().color = Color.magenta;
-                    Debug.Log($"Casilla trampa en ({x}, {y})");
+                    if(casilla.EsInicio)
+                    {
+                        cell.GetComponent<Image>().color = Color.red;
+                        Debug.Log($"Casilla de inicio en ({x}, {y})");
+                    }
+                    else if(casilla.EsSalida)
+                    {
+                        cell.GetComponent<Image>().color = Color.green;
+                        Debug.Log($"Casilla de salida en ({x}, {y})");
+                    }
                 }
             }
         }

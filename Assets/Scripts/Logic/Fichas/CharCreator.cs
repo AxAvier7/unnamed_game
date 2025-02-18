@@ -119,8 +119,7 @@ public class CharacterCreator : MonoBehaviour
 
     void StartGame()
     {
-        if(CoordsPanel != null)
-            CoordsPanel.SetActive(true);
+        if (CoordsPanel != null)    CoordsPanel.SetActive(true);
         Debug.Log("Todos los jugadores han seleccionado sus fichas. Comienza el juego.");
         foreach(var player in players)
         {
@@ -130,7 +129,9 @@ public class CharacterCreator : MonoBehaviour
                 Debug.Log($"Ficha: {ficha.label}, Velocidad: {ficha.speed}, Recarga: {ficha.cooldown}");
             }
         }
-        if(mazeController != null && gameContext!=null)
-            mazeController.PlaceFichasInMaze();
+        if (mazeController != null && gameContext != null)
+        {
+            MazeController.Instance.PlaceFichasInMaze();
         }
+    }
 }

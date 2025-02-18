@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Coordenadas: {x: 0, y: 0}
-  efectoTrampa: 1
+  efectoTrampa: 3
 --- !u!212 &8132452735508555521
 SpriteRenderer:
   m_ObjectHideFlags: 0

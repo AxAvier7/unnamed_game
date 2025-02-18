@@ -23,6 +23,7 @@ public class MazeController : MonoBehaviour
     public void PlaceFichasInMaze()
     {
         Transform casillaEntrada = GetMazeEntrance();
+        Casilla casillaComponent = casillaEntrada.GetComponent<Casilla>();
         foreach (var player in gameContext.players)
         {
             foreach (var ficha in player.fichas)
@@ -30,9 +31,7 @@ public class MazeController : MonoBehaviour
                 GameObject fichaObj = Instantiate(fichaPrefab, casillaEntrada);
                 fichaObj.transform.localPosition = Vector3.zero;
                 FichaComponent fichaComponent = fichaObj.GetComponent<FichaComponent>();
-                Casilla casillaComponent = casillaEntrada.GetComponent<Casilla>();
-
-                if (fichaComponent != null && casillaComponent != null)
+                if (fichaComponent != null)
                 {
                     fichaComponent.Initialize(ficha, casillaComponent);
                     FichaController fichaController = fichaObj.GetComponent<FichaController>();
@@ -40,11 +39,6 @@ public class MazeController : MonoBehaviour
                     {
                         fichaController.Initialize(fichaComponent);
                     }
-                    Debug.Log($"Ficha {ficha.label} inicializada en la casilla ({casillaComponent.Coordenadas.x}, {casillaComponent.Coordenadas.y})");
-                }
-                else
-                {
-                    Debug.LogError("FichaComponent o Casilla no encontrados en la ficha instanciada.");
                 }
             }
         }
@@ -59,7 +53,8 @@ public class MazeController : MonoBehaviour
                 return child;
         }
         return null;    
-    }    
+    }   
+     
     Transform GetMazeExit()
     {
         foreach(Transform child in mazeGrid)

@@ -21,12 +21,12 @@ public class CasillaTrampa : Casilla
         Activada = false;
     }
 
-    public void ActivarTrampa(FichaComponent ficha, MazeController mazeController)
+    public void ActivarTrampa(FichaComponent ficha)
     {
         if (!Activada)
         {
             Activada = true;
-            Debug.Log($"¡Trampa activada en {Coordenadas}! Efecto: {efectoTrampa}"); // ✅
+            Debug.Log($"¡Trampa activada en {Coordenadas}! Efecto: {efectoTrampa}");
             string message = "";
 
             switch (efectoTrampa)
@@ -42,24 +42,37 @@ public class CasillaTrampa : Casilla
                     break;
 
                 case TipoEfectoTrampa.RegresarEntrada:
-                    Transform entrada = mazeController.GetMazeEntrance();
+                    Transform entrada = MazeController.Instance.GetMazeEntrance();
                     if (entrada != null)
                     {
+                        Casilla casillaEntrada = entrada.GetComponent<Casilla>();
                         ficha.transform.SetParent(entrada);
                         ficha.transform.localPosition = Vector3.zero;
                         ficha.CurrentCasilla = entrada.GetComponent<Casilla>();
+                        ficha.FichaData.currentPosition = casillaEntrada.Coordenadas;
                         message = $"{ficha.FichaData.label} - ¡Regresado a la entrada!";
                     }
                     break;
 
                 case TipoEfectoTrampa.Teletransportar:
-                    Casilla casillaAleatoria = mazeController.GetCasillaAleatoriaValida();
+                    Casilla casillaAleatoria = MazeController.Instance.GetCasillaAleatoriaValida();
                     if (casillaAleatoria != null)
                     {
                         ficha.transform.SetParent(casillaAleatoria.transform);
                         ficha.transform.localPosition = Vector3.zero;
                         ficha.CurrentCasilla = casillaAleatoria;
+                        ficha.FichaData.currentPosition = casillaAleatoria.Coordenadas;
                         message = $"{ficha.FichaData.label} - ¡Teletransportado!";
+                    }
+                    if(casillaAleatoria.EsSalida)
+                    {
+                        string nombreJugador = "Jugador Desconocido";
+                        foreach (var player in GameContext.Instance.players)
+                        {
+                            nombreJugador = player.name;
+                            break;
+                        }
+                        Victory.Instance.ShowVictory(nombreJugador);                    
                     }
                     break;
             }

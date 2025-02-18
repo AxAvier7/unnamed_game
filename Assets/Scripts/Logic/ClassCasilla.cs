@@ -5,7 +5,6 @@ public class Casilla : MonoBehaviour//esta clase que define a las casillas del t
 {
     public Vector2Int Position { get; private set; }
     public bool EsTransitable { get; set; }
-    private Player CurrentPlayer {get; set;}
     public List<Ficha> FichasDelJugador { get; private set; }
     public bool EsTrampa { get; set; }
     public bool EsInicio { get; set; }
