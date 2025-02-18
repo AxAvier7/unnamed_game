@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameContext : MonoBehaviour
+public class GameContext : MonoBehaviour//este script guarda el estado del juego para que ciertos parametros sea accesibles
 {
     public static GameContext Instance { get; private set; }
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-public class MazeGenerator
+public class MazeGenerator//en este script se genera el laberinto de enteros
 {
     private int[,] maze;
     private int width, height;

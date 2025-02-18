@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class DialogueForm : MonoBehaviour
+public class DialogueForm : MonoBehaviour //clase asociada al formulario que el usuario rellena para luego crear el laberinto
 {
     public Text dialogueText;
     public InputField inputField;
@@ -16,7 +16,7 @@ public class DialogueForm : MonoBehaviour
         submitButton.onClick.AddListener(HandleSubmit);
     }
 
-    void ShowQuestion()
+    void ShowQuestion()//metodo que muestra las preguntas que se la hacen al usuario para que este rellene con parametros
     {
         switch (currentStep)
         {
@@ -41,7 +41,7 @@ public class DialogueForm : MonoBehaviour
         }
     }
 
-    void HandleSubmit()
+    void HandleSubmit()// metodo con el que se guarda la informacion que introduce el usuario y que indica si hay errores en el inputs
     {
         string input = inputField.text.Trim();
 
@@ -52,7 +52,7 @@ public class DialogueForm : MonoBehaviour
                 {
                     if (playersInput > 4 || playersInput == 1)
                     {
-                        dialogueText.text = "No pueden haber más de 4 jugadores. Introduce un número de jugadores menor a 4 y distinto de 1.";
+                        dialogueText.text = "No pueden haber más de 4 jugadores. Introduce un número entre 4 y 2.";
                         return;
                     }
                     GameData.Instance.Players = playersInput;
@@ -65,7 +65,7 @@ public class DialogueForm : MonoBehaviour
                 break;
 
             case 1:
-                if (!string.IsNullOrEmpty(input))
+                if(!string.IsNullOrEmpty(input))
                 {
                     GameData.Instance.PlayerNames.Add(input);
                     if (GameData.Instance.PlayerNames.Count < GameData.Instance.Players)
@@ -82,9 +82,9 @@ public class DialogueForm : MonoBehaviour
                 break;
 
             case 2:
-                if (int.TryParse(input, out int chipsInput))
+                if(int.TryParse(input, out int chipsInput))
                 {
-                    if (chipsInput > 5)
+                    if (chipsInput > 5 || chipsInput < 1)
                     {
                         dialogueText.text = "No admitimos más de 5 fichas. Introduce una cantidad de fichas menor a 5.";
                         return;

@@ -3,10 +3,18 @@ using UnityEngine;
 
 public class MazeController : MonoBehaviour
 {
+    public static MazeController Instance { get; private set; }
     public GameContext gameContext;
     public GameObject fichaPrefab;
     public Transform mazeGrid;
 
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
     void Start()
     {
         gameContext = GameContext.Instance;
@@ -21,14 +29,17 @@ public class MazeController : MonoBehaviour
             {
                 GameObject fichaObj = Instantiate(fichaPrefab, casillaEntrada);
                 fichaObj.transform.localPosition = Vector3.zero;
-
-                
                 FichaComponent fichaComponent = fichaObj.GetComponent<FichaComponent>();
                 Casilla casillaComponent = casillaEntrada.GetComponent<Casilla>();
 
                 if (fichaComponent != null && casillaComponent != null)
                 {
                     fichaComponent.Initialize(ficha, casillaComponent);
+                    FichaController fichaController = fichaObj.GetComponent<FichaController>();
+                    if (fichaController != null)
+                    {
+                        fichaController.Initialize(fichaComponent);
+                    }
                     Debug.Log($"Ficha {ficha.label} inicializada en la casilla ({casillaComponent.Coordenadas.x}, {casillaComponent.Coordenadas.y})");
                 }
                 else
@@ -39,7 +50,7 @@ public class MazeController : MonoBehaviour
         }
     }
 
-    Transform GetMazeEntrance()
+    public Transform GetMazeEntrance()
     {
         foreach(Transform child in mazeGrid)
         { 
@@ -87,5 +98,23 @@ public class MazeController : MonoBehaviour
             }
         }
         return vecinas;
+    }
+
+    public Casilla GetCasillaAleatoriaValida()
+    {
+        List<Casilla> casillasValidas = new List<Casilla>();
+        foreach (Transform child in mazeGrid)
+        {
+            Casilla casilla = child.GetComponent<Casilla>();
+            if (casilla != null && casilla.EsTransitable && !casilla.EsInicio)
+            {
+                casillasValidas.Add(casilla);
+            }
+        }
+        if (casillasValidas.Count > 0)
+        {
+            return casillasValidas[Random.Range(0, casillasValidas.Count)];
+        }
+        return null;
     }
 }

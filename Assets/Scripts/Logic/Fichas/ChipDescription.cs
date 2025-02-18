@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ChipDescription : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ChipDescription : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler//este script muestra una descripcion de la ficha
 {
     public string description;
     public GameObject descriptionPrefab;

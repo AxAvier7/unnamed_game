@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : MonoBehaviour//este script se encarga de manejar el dialogo corto
 {
     public Text nameText;
     public Text dialogueText;
-    public Animator animator;
     public GameObject formPanel;
     public Dialogue dialogue;
     private Queue<string> sentences;
@@ -21,7 +20,6 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
-        animator.SetBool("IsOpen", true);
         nameText.text = dialogue.Name;
         sentences.Clear();
 
@@ -58,7 +56,6 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowForm()
     {
-        animator.SetBool("IsOpen", false);
         formPanel.SetActive(true);
     }
 

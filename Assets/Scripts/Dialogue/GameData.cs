@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameData : MonoBehaviour
+public class GameData : MonoBehaviour //clase donde se guardan los parametros que se usan para generar el laberinto y que estos no se pierdan de una escena a otra
 {
     public static GameData Instance { get; private set; }
     public int Players { get; set; }

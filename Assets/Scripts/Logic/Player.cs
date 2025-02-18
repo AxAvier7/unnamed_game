@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public abstract class Player
+public abstract class Player //clase abstracta que define a los jugadores
 {
     public string name;    
     public List<Ficha> fichas;
@@ -9,12 +9,6 @@ public abstract class Player
         this.name = name;
         fichas = new List<Ficha>();
     }
-
-    public void AddFicha(Ficha ficha)
-    {
-        fichas.Add(ficha);
-    }
-    
 }
 
 public class NewPlayer : Player

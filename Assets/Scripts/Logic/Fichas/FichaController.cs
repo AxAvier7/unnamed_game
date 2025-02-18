@@ -4,40 +4,36 @@ using UnityEngine.UI;
 
 public class FichaController : MonoBehaviour
 {
+    private FichaComponent fichaComponent;
     public InputField inputX;
     public InputField inputY;
     public Button moveButton;
-    
     private Ficha fichaData;
     private Casilla casillaActual;
     private MazeController mazeController;
 
-    private void Start()
+    public void Initialize(FichaComponent component)
     {
-        fichaData = GetComponent<FichaComponent>()?.FichaData;
+        fichaComponent = component;
+        fichaData = component.FichaData;
+
         if (fichaData == null)
         {
-            Debug.LogError($"No se encontró el componente FichaComponent en {gameObject.name}.");
+            Debug.LogError("FichaData no está asignada en FichaComponent.");
             return;
         }
 
         casillaActual = transform.parent.GetComponent<Casilla>();
-        if (casillaActual == null)
+        mazeController = MazeController.Instance;
+
+        if (casillaActual == null || mazeController == null)
         {
-            Debug.LogError($"El padre de {gameObject.name} ({transform.parent.name}) no tiene un componente Casilla.");
+            Debug.LogError("Error de inicialización en FichaController.");
             return;
         }
 
-        mazeController = FindObjectOfType<MazeController>();
-        if (mazeController == null)
-        {
-            Debug.LogError("No se encontró el MazeController en la escena.");
-            return;
-        }
-
-        moveButton.onClick.AddListener(TryMove);    
+        moveButton.onClick.AddListener(TryMove);
     }
-
 
     private void TryMove()
     {
@@ -76,6 +72,27 @@ public class FichaController : MonoBehaviour
         transform.SetParent(nuevaCasilla.transform);
         transform.localPosition = Vector3.zero;
         casillaActual = nuevaCasilla;
+        if (nuevaCasilla.EsSalida)
+        {
+            string nombreJugador = "Jugador Desconocido";
+            foreach (var player in GameContext.Instance.players)
+            {
+                if (player.fichas.Contains(fichaData))
+                {
+                    nombreJugador = player.name;
+                    break;
+                }
+            }
+            Victory.Instance.ShowVictory(nombreJugador);
+        }
+
+        CasillaTrampa trampa = nuevaCasilla as CasillaTrampa;
+        if (trampa != null)
+        {
+            Debug.Log("A");
+            FichaComponent fichaComponent = GetComponent<FichaComponent>();
+            trampa.ActivarTrampa(fichaComponent, mazeController);        
+        }
         Debug.Log($"Ficha {fichaData.label} movida a casilla ({nuevaCasilla.Coordenadas.x}, {nuevaCasilla.Coordenadas.y}).");
     }
 

@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Maze : MonoBehaviour
+public class Maze : MonoBehaviour //script donde se genera la parte visual del laberinto
 {
     public GameObject wallPrefab;
     public GameObject pathPrefab;
+    public GameObject trapPrefab;
     public Transform mazeGrid;
     private Casilla[,] maze;
 
@@ -23,7 +24,7 @@ public class Maze : MonoBehaviour
         VisualizeMaze(maze);
     }
 
-    static Casilla[,] MazeGen(int players, int chips) //metodo que genera el laberinto en el que se jugara
+    Casilla[,] MazeGen(int players, int chips) //metodo que genera el laberinto en el que se jugara
     {
         int size = players*chips >= 12 ? 12 : 11;
         int currentTraps=0;
@@ -38,21 +39,32 @@ public class Maze : MonoBehaviour
                 bool esTransitable = generatedMaze[x, y] == 1;
                 bool esInicio = (x == x1 && y == y1);
                 bool esSalida = (x == x2 && y == y2);
-                maze[x, y] = new Casilla(new Vector2Int(x, y), esTransitable, false, esInicio, esSalida);
+                bool esTrampa = false;
                 if(!esInicio && !esSalida && esTransitable && currentTraps<3)
                 {
-                    if(Random.Range(0,5) == 1)
+                    if (Random.Range(0,5) == 1)
                     {
-                        maze[x,y].EsTrampa = true;
+                        esTrampa = true;
                         currentTraps++;
                     }
                 }
-                
+                if(esTrampa)
+                {
+                    GameObject trapCell = Instantiate(trapPrefab, mazeGrid);
+                    CasillaTrampa casillaTrampa = trapCell.GetComponent<CasillaTrampa>();
+                    casillaTrampa.Coordenadas = new Vector2Int(x, y);
+                    casillaTrampa.EsTransitable = true;
+                    casillaTrampa.efectoTrampa = CasillaTrampa.TipoEfectoTrampa.RegresarEntrada;
+                    maze[x, y] = casillaTrampa;                
+                }
+                else
+                {
+                    maze[x, y] = new Casilla(new Vector2Int(x, y), esTransitable, esTrampa: esTrampa, esInicio: esInicio, esSalida: esSalida);
+                }
             }
         }
         return maze;
     }
-
     static (int x1, int y1, int x2, int y2) CoordinatesRandomizer(int rows, int columns) //metodo que recibe la matriz del laberinto y devuelve la misma matriz pero con una entrada y salida marcadas
     {    
 
@@ -99,7 +111,7 @@ public class Maze : MonoBehaviour
         return (x1, y1, x2, y2);
     }
 
-    void VisualizeMaze(Casilla[,] maze)
+    void VisualizeMaze(Casilla[,] maze)//metodo con el que se muestra en la escena de Juego el laberinto
     {
         foreach (Transform child in mazeGrid)
         {
@@ -118,16 +130,24 @@ public class Maze : MonoBehaviour
                 Casilla casilla = maze[x, y];
                 GameObject prefab = casilla.EsTransitable ? pathPrefab : wallPrefab;
                 GameObject cell = Instantiate(prefab, mazeGrid);
+                Casilla casillaVisual = cell.GetComponent<Casilla>();
+                if (casillaVisual != null)
+                {
+                    casillaVisual.Coordenadas = new Vector2Int(x, y);
+                    casillaVisual.EsInicio = casilla.EsInicio;
+                    casillaVisual.EsSalida = casilla.EsSalida;
+                    casillaVisual.EsTrampa = casilla.EsTrampa;
+                    casillaVisual.EsTransitable = casilla.EsTransitable;
+                }
+                if (casilla is CasillaTrampa)
+                {
+                    CasillaTrampa trampa = cell.AddComponent<CasillaTrampa>();
+                    trampa.Coordenadas = casilla.Coordenadas;
+                    trampa.EsTrampa = true;
+                    trampa.EsTransitable = casilla.EsTransitable;
+                    cell.GetComponent<Image>().color = Color.magenta;
 
-            Casilla casillaVisual = cell.GetComponent<Casilla>();
-            if (casillaVisual != null)
-            {
-                casillaVisual.Coordenadas = new Vector2Int(x, y);
-                casillaVisual.EsInicio = casilla.EsInicio;
-                casillaVisual.EsSalida = casilla.EsSalida;
-                casillaVisual.EsTrampa = casilla.EsTrampa;
-                casillaVisual.EsTransitable = casilla.EsTransitable;
-            }
+                }
 
                 if (casilla.EsInicio)
                 {
