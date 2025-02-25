@@ -4,7 +4,6 @@ using UnityEngine;
 public class GameContext : MonoBehaviour//este script guarda el estado del juego para que ciertos parametros sea accesibles
 {
     public static GameContext Instance { get; private set; }
-
     public Casilla[,] maze;
     public List<Player> players;
     public int turn;
@@ -21,10 +20,5 @@ public class GameContext : MonoBehaviour//este script guarda el estado del juego
         DontDestroyOnLoad(gameObject);
         players = new List<Player>();
         turn = 0;
-    }
-
-    public void SetMaze(Casilla[,] newMaze)
-    {
-        maze = newMaze;
     }
 }

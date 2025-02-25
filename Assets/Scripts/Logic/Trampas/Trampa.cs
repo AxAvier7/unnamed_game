@@ -26,6 +26,7 @@ public class CasillaTrampa : Casilla
         if (!Activada)
         {
             Activada = true;
+            FichaController fichaController = ficha.GetComponent<FichaController>();
             Debug.Log($"¡Trampa activada en {Coordenadas}! Efecto: {efectoTrampa}");
             string message = "";
 
@@ -46,6 +47,7 @@ public class CasillaTrampa : Casilla
                     if (entrada != null)
                     {
                         Casilla casillaEntrada = entrada.GetComponent<Casilla>();
+                        fichaController.ActualizarPosicion(casillaEntrada);
                         ficha.transform.SetParent(entrada);
                         ficha.transform.localPosition = Vector3.zero;
                         ficha.CurrentCasilla = entrada.GetComponent<Casilla>();
@@ -58,6 +60,7 @@ public class CasillaTrampa : Casilla
                     Casilla casillaAleatoria = MazeController.Instance.GetCasillaAleatoriaValida();
                     if (casillaAleatoria != null)
                     {
+                        fichaController.ActualizarPosicion(casillaAleatoria);
                         ficha.transform.SetParent(casillaAleatoria.transform);
                         ficha.transform.localPosition = Vector3.zero;
                         ficha.CurrentCasilla = casillaAleatoria;

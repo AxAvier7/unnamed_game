@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using static CasillaTrampa;
 
 public class Maze : MonoBehaviour //script donde se genera la parte visual del laberinto
 {
@@ -42,7 +43,7 @@ public class Maze : MonoBehaviour //script donde se genera la parte visual del l
                 bool esTrampa = false;
                 if(!esInicio && !esSalida && esTransitable && currentTraps<3)
                 {
-                    if (Random.Range(0,5) == 1)
+                    if(UnityEngine.Random.Range(0,5) == 1)
                     {
                         esTrampa = true;
                         currentTraps++;
@@ -136,6 +137,9 @@ public class Maze : MonoBehaviour //script donde se genera la parte visual del l
                     prefab = trapPrefab;
                     GameObject trapCell = Instantiate(prefab, mazeGrid);
                     CasillaTrampa casillaTrampa = trapCell.GetComponent<CasillaTrampa>();
+                    TipoEfectoTrampa[] efectosTrampas = {TipoEfectoTrampa.MultiplicarCooldown, TipoEfectoTrampa.DividirVelocidad, TipoEfectoTrampa.RegresarEntrada, TipoEfectoTrampa.Teletransportar};
+                    System.Random rng = new System.Random();
+                    casillaTrampa.efectoTrampa = efectosTrampas[rng.Next(efectosTrampas.Length)];
                     casillaTrampa.Coordenadas = new Vector2Int(x, y);
                     casillaTrampa.EsTransitable = casilla.EsTransitable;
                     TrapManager.Instance.RegistrarTrampa(new Vector2Int(x, y), casillaTrampa);
