@@ -8,6 +8,7 @@ public class DialogueManager : MonoBehaviour//este script se encarga de manejar 
     public Text nameText;
     public Text dialogueText;
     public GameObject formPanel;
+    public GameObject interaction;
     public Dialogue dialogue;
     private Queue<string> sentences;
 
@@ -57,6 +58,7 @@ public class DialogueManager : MonoBehaviour//este script se encarga de manejar 
     private void ShowForm()
     {
         formPanel.SetActive(true);
+        interaction.SetActive(false);
     }
 
     void Update()

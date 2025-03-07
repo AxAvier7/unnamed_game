@@ -7,12 +7,11 @@ public class TrapManager : MonoBehaviour
     public static TrapManager Instance;
     public GameObject trapEffectPanel;
     public Text trapMessageText;
-    public float effectDuration = 3f;
     public Dictionary<Vector2Int, CasillaTrampa> trampas = new Dictionary<Vector2Int, CasillaTrampa>();
     
     void Awake()
     {
-        if (Instance == null)
+        if(Instance == null)
             Instance = this;
         else
             Destroy(gameObject);
@@ -20,7 +19,7 @@ public class TrapManager : MonoBehaviour
 
     public void RegistrarTrampa(Vector2Int coordenadas, CasillaTrampa trampa)
     {
-        if (!trampas.ContainsKey(coordenadas))
+        if(!trampas.ContainsKey(coordenadas))
         {
             trampas.Add(coordenadas, trampa);
         }
@@ -35,7 +34,7 @@ public class TrapManager : MonoBehaviour
     {
         trapEffectPanel.SetActive(true);
         trapMessageText.text = message;
-        Invoke(nameof(HideTrapEffect), effectDuration);
+        Invoke(nameof(HideTrapEffect), 3f);
     }
 
     private void HideTrapEffect()

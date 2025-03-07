@@ -19,7 +19,6 @@ public class Maze : MonoBehaviour //script donde se genera la parte visual del l
     {
         int players = GameData.Instance.Players;
         int chips = GameData.Instance.Chips;
-
         maze = MazeGen(players, chips);
         GameContext.Instance.maze = maze;
         VisualizeMaze(maze);
@@ -33,9 +32,9 @@ public class Maze : MonoBehaviour //script donde se genera la parte visual del l
         var (x1,y1,x2,y2) = CoordinatesRandomizer(size, size);
         MazeGenerator generator = new MazeGenerator(size, size);
         int[,] generatedMaze = generator.GenerateMaze((x1, y1), (x2, y2));
-        for (int x = 0; x < size; x++)
+        for(int x = 0; x < size; x++)
         {
-            for (int y = 0; y < size; y++)
+            for(int y = 0; y < size; y++)
             {
                 bool esTransitable = generatedMaze[x, y] == 1;
                 bool esInicio = (x == x1 && y == y1);
@@ -75,7 +74,7 @@ public class Maze : MonoBehaviour //script donde se genera la parte visual del l
         int border = rng.Next(0,4); // 0: 1ra fila | 1: ultima fila | 2: 1ra columna | 3: ultima columna
         int border2 = rng.Next(0,4);
 
-        switch (border) //decidimos las coordenadas de la entrada al laberinto
+        switch(border) //decidimos las coordenadas de la entrada al laberinto
         {
             case 0:
                 x1 = 0;     y1 = rng.Next(1, columns-2);
@@ -115,7 +114,7 @@ public class Maze : MonoBehaviour //script donde se genera la parte visual del l
     void VisualizeMaze(Casilla[,] maze)//metodo con el que se muestra en la escena de Juego el laberinto
     {
         TrapManager.Instance.trampas.Clear();
-        foreach (Transform child in mazeGrid)
+        foreach(Transform child in mazeGrid)
         {
             Destroy(child.gameObject);
         }
@@ -125,9 +124,9 @@ public class Maze : MonoBehaviour //script donde se genera la parte visual del l
         var gridLayoutGroup = mazeGrid.GetComponent<GridLayoutGroup>();
         gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
 
-        for (int x = 0; x < maze.GetLength(0); x++)
+        for(int x = 0; x < maze.GetLength(0); x++)
         {
-            for (int y = 0; y < maze.GetLength(1); y++)
+            for(int y = 0; y < maze.GetLength(1); y++)
             {
                 Casilla casilla = maze[x, y];
                 GameObject prefab;

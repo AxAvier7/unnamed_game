@@ -49,7 +49,7 @@ public class MazeGenerator//en este script se genera el laberinto de enteros
         Shuffle(directions);
 
         //probamos el movimiento en cada direccion
-        foreach (var (dx, dy) in directions)
+        foreach(var (dx, dy) in directions)
         {
             //revisamos dos casillas mas adelante de la direccion en la que estemos
             int nx = x + 2 * dx;

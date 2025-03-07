@@ -11,7 +11,7 @@ public class ChipDescription : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     void Start()
     {
-        if (descriptionPrefab != null)
+        if(descriptionPrefab != null)
         {
             descriptionInstance = Instantiate(descriptionPrefab, FindObjectOfType<Canvas>().transform);
             descriptionInstance.SetActive(false);
@@ -20,7 +20,7 @@ public class ChipDescription : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     void Update()
     {
-        if (descriptionInstance != null && descriptionInstance.activeSelf)
+        if(descriptionInstance != null && descriptionInstance.activeSelf)
         {
             Vector2 mousePosition = new Vector2(Input.mousePosition.x + 110f, Input.mousePosition.y + 110f);
             descriptionInstance.transform.position = mousePosition;
@@ -31,7 +31,7 @@ public class ChipDescription : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if(!isActive)
         {        
-            if (descriptionInstance != null)
+            if(descriptionInstance != null)
             {
                 descriptionInstance.SetActive(true);
                 descriptionInstance.GetComponentInChildren<Text>().text = description;
@@ -42,7 +42,7 @@ public class ChipDescription : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (descriptionInstance != null)
+        if(descriptionInstance != null)
         {
             descriptionInstance.SetActive(false);
             isActive = false;

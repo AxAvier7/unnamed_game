@@ -11,9 +11,21 @@ public class FichaController : MonoBehaviour
     public Ficha fichaData;
     private Casilla casillaActual;
     private MazeController mazeController;
+    public GameObject SkillButton;
 
     public void Initialize(FichaComponent component)
     {
+    if(component == null)
+    {
+        Debug.LogError("Error: FichaComponent no asignado en FichaController.");
+        return;
+    }
+
+    if(component.FichaData == null)
+    {
+        Debug.LogError("Error: FichaData en FichaComponent es null.");
+        return;
+    }
         fichaComponent = component;
         fichaData = component.FichaData;
         casillaActual = transform.parent.GetComponent<Casilla>();
@@ -55,35 +67,43 @@ public class FichaController : MonoBehaviour
 
     private void MoverFicha(Casilla nuevaCasilla)
     {
-        fichaData.currentSteps += CalcularDistancia(casillaActual, nuevaCasilla);
-        transform.SetParent(nuevaCasilla.transform);
-        transform.localPosition = Vector3.zero;
-        casillaActual = nuevaCasilla;
-        Vector2Int coordenadasFicha = nuevaCasilla.Coordenadas;
-        fichaData.currentPosition = coordenadasFicha;
-        if(TrapManager.Instance.HayTrampaEn(coordenadasFicha, out CasillaTrampa trampa))
+        if(!TurnManager.Instance.EsperandoSeleccion && 
+        TurnManager.Instance.FichaSeleccionada == this.fichaData)
         {
-            FichaComponent fichaComponent = GetComponent<FichaComponent>();
-            if (fichaComponent != null)
+            fichaData.currentSteps += CalcularDistancia(casillaActual, nuevaCasilla);
+            transform.SetParent(nuevaCasilla.transform);
+            transform.localPosition = Vector3.zero;
+            casillaActual = nuevaCasilla;
+            Vector2Int coordenadasFicha = nuevaCasilla.Coordenadas;
+            fichaData.currentPosition = coordenadasFicha;
+
+            if(TrapManager.Instance.HayTrampaEn(coordenadasFicha, out CasillaTrampa trampa))
             {
-                trampa.ActivarTrampa(fichaComponent);
-                TrapManager.Instance.ShowTrapEffect($"¡Trampa: {trampa.efectoTrampa}!");
-            }
-        }
-        if(nuevaCasilla.EsSalida)
-        {
-            string nombreJugador = "Jugador Desconocido";
-            foreach (var player in GameContext.Instance.players)
-            {
-                if (player.fichas.Contains(fichaData))
+                FichaComponent fichaComponent = GetComponent<FichaComponent>();
+                if(fichaComponent != null /*&& !GameContext.Instance.CurrentPlayer.isInvisible*/)
                 {
-                    nombreJugador = player.name;
-                    break;
+                    trampa.ActivarTrampa(fichaComponent);
+                    TrapManager.Instance.ShowTrapEffect($"¡Trampa: {trampa.efectoTrampa}!");
                 }
             }
-            Victory.Instance.ShowVictory(nombreJugador);
+
+            if(nuevaCasilla.EsSalida)
+            {
+                string nombreJugador = "Jugador Desconocido";
+                foreach (var player in GameContext.Instance.players)
+                {
+                    if (player.fichas.Contains(fichaData))
+                    {
+                        nombreJugador = player.name;
+                        break;
+                    }
+                }
+                Victory.Instance.ShowVictory(nombreJugador);
+            }
+            GetComponent<Image>().color = GetComponent<FichaComponent>().colorOriginal;
+            TurnManager.Instance.EndTurn();
+            Debug.Log($"Ficha {fichaData.label} movida a casilla ({nuevaCasilla.Coordenadas.x}, {nuevaCasilla.Coordenadas.y}).");
         }
-        Debug.Log($"Ficha {fichaData.label} movida a casilla ({nuevaCasilla.Coordenadas.x}, {nuevaCasilla.Coordenadas.y}).");
     }
 
     private bool PuedeLlegarA(Casilla origen, Casilla destino, int maxPasos)
@@ -122,5 +142,35 @@ public class FichaController : MonoBehaviour
         fichaData.currentPosition = nuevaCasilla.Coordenadas;
         fichaData.currentSteps = 0;
         fichaData.moveConfirmation = false;
+    }
+
+    public void MoverFichaACasilla(Casilla nuevaCasilla) 
+    {
+        if(!TurnManager.Instance.EsperandoSeleccion && 
+        TurnManager.Instance.FichaSeleccionada == this.fichaData)
+        {
+            transform.SetParent(nuevaCasilla.transform);
+            transform.localPosition = Vector3.zero;
+            casillaActual = nuevaCasilla;
+            fichaData.currentPosition = nuevaCasilla.Coordenadas;
+            fichaData.currentSteps = 0;
+            Debug.Log($"{fichaData.label} teletransportada a ({nuevaCasilla.Coordenadas.x}, {nuevaCasilla.Coordenadas.y})");
+        }
+    }
+
+    public void UsarHabilidad()
+    {
+        if(TurnManager.Instance.FichaSeleccionada == null)
+        {
+            Debug.LogError("No hay ficha seleccionada.");
+            return;
+        }
+
+        Ficha fichaActual = TurnManager.Instance.FichaSeleccionada;
+        if(fichaActual.CanUseSkill)
+        {
+            fichaActual.Skill();
+            TurnManager.Instance.EndTurn();
+        }  
     }
 }

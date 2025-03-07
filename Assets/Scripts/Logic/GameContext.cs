@@ -6,7 +6,9 @@ public class GameContext : MonoBehaviour//este script guarda el estado del juego
     public static GameContext Instance { get; private set; }
     public Casilla[,] maze;
     public List<Player> players;
-    public int turn;
+    public bool gameStarted;
+    public Player CurrentPlayer {get; set;}
+    public int currentTurns;
 
     void Awake()
     {
@@ -19,6 +21,5 @@ public class GameContext : MonoBehaviour//este script guarda el estado del juego
         Instance = this;
         DontDestroyOnLoad(gameObject);
         players = new List<Player>();
-        turn = 0;
     }
 }
