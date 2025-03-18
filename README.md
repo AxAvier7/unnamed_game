@@ -1,6 +1,6 @@
 Hola a quien esté leyendo esto. Soy Adrián Xavier Brioso Jurado y este es mi primer proyecto de primer año de programación de la carrera Ciencias de la Computación de MATCOM.
 
-Este repositorio contiene un .docx que resume qué uso tiene cada script. Además, dentro del juego hay un tutorial que explica cómo jugar una partida.
+Este repositorio contiene un .docx que resume qué uso tiene cada script. Además, tiene un tutorial que explica cómo jugar una partida.
 
 <details>
   <summary>Instrucciones para ejecutarlo</summary>

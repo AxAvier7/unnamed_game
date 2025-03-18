@@ -80,9 +80,9 @@ public class CharacterCreator : MonoBehaviour
                 nuevaFicha = new SpeedChip(5, 3, "Speed");
                 nuevaFicha.Tipo = TipoFicha.Speed;
                 break;
-            case "InvisibilityChip":
-                nuevaFicha = new InvisibilityChip(5, 5, "Invisibility");
-                nuevaFicha.Tipo = TipoFicha.Invisibility;
+            case "ThunderChip":
+                nuevaFicha = new ThunderChip(5, 5, "Thunder");
+                nuevaFicha.Tipo = TipoFicha.Thunder;
                 break;
             case "ShieldChip":
                 nuevaFicha = new ShieldChip(2, 5, "Shield");

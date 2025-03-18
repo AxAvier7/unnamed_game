@@ -25,6 +25,11 @@ public class TrapManager : MonoBehaviour
         }
     }
 
+    public void EliminarTrampa(Vector2Int coordenadas)
+    {
+        trampas.Remove(coordenadas);
+    }
+
     public bool HayTrampaEn(Vector2Int coordenadas, out CasillaTrampa trampa)
     {
         return trampas.TryGetValue(coordenadas, out trampa);

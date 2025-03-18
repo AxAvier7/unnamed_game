@@ -10,6 +10,7 @@ public class TurnManager : MonoBehaviour
     public bool EsperandoSeleccion {get; private set;}
     public GameObject CoordsPanel;
     public Text turnText;
+    public int turnosExtraRestantes = 0;
 
     void Awake()
     {
@@ -31,22 +32,46 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn()
     {
-        int currentPlayerIndex = GameContext.Instance.players.IndexOf(CurrentPlayer);
-        if(currentPlayerIndex == GameContext.Instance.players.Count - 1)
+        if(turnosExtraRestantes > 0)
         {
-            GameContext.Instance.currentTurns++;
-        }
-        foreach (Player player in GameContext.Instance.players)
-        {
-            foreach (Ficha ficha in player.fichas)
+            turnosExtraRestantes--;
+            foreach (Player jugador in GameContext.Instance.players)
             {
-                ficha.cooldown = Mathf.Max(0, ficha.cooldown - 1);
+                jugador.isParalized = false;
             }
+            StartTurn(CurrentPlayer);
+            Debug.Log($"Turno extra restante: {turnosExtraRestantes}");
         }
-        int nextIndex = (currentPlayerIndex + 1) % GameContext.Instance.players.Count;
-        Player nextPlayer = GameContext.Instance.players[nextIndex];
-        StartTurn(nextPlayer);
-        turnText.text = $"Turno de: {CurrentPlayer.name} | Ronda: {GameContext.Instance.currentTurns}";    
+        else
+        {
+            int currentPlayerIndex = GameContext.Instance.players.IndexOf(CurrentPlayer);
+            if(currentPlayerIndex == GameContext.Instance.players.Count - 1)
+            {
+                GameContext.Instance.currentTurns++;
+            }
+            if (CurrentPlayer != null && CurrentPlayer.turnosRestantesInmunidad > 0)
+            {
+                CurrentPlayer.turnosRestantesInmunidad--;
+                Debug.Log($"Inmunidad restante: {CurrentPlayer.turnosRestantesInmunidad} turnos");
+            }
+            foreach (Player player in GameContext.Instance.players)
+            {
+                foreach (Ficha ficha in player.fichas)
+                {
+                    ficha.cooldown = Mathf.Max(0, ficha.cooldown - 1);
+                }
+            }
+            int nextIndex = (currentPlayerIndex + 1) % GameContext.Instance.players.Count;
+            Player nextPlayer = GameContext.Instance.players[nextIndex];
+            while(nextPlayer.isParalized)
+            {
+                nextPlayer.isParalized = false;
+                nextIndex = (nextIndex + 1) % GameContext.Instance.players.Count;
+                nextPlayer = GameContext.Instance.players[nextIndex];
+            }
+            StartTurn(nextPlayer);
+            turnText.text = $"Turno de: {CurrentPlayer.name} | Ronda: {GameContext.Instance.currentTurns}";    
+        }
     }
 
     public void SeleccionarFicha(Ficha ficha)
@@ -65,19 +90,6 @@ public class TurnManager : MonoBehaviour
             HabilitarSeleccionFichas(false);
             HabilitarAccionesFicha(true);
         }
-    }
-
-    public void FinalizarAccion()
-    {
-        if(FichaSeleccionada != null)
-        {
-            FichaSeleccionada.ResetTurn();
-            FichaSeleccionada.visual.OnDeselected();
-        }
-        
-        FichaSeleccionada = null;
-        EsperandoSeleccion = true;
-        EndTurn();    
     }
 
     private void HabilitarSeleccionFichas(bool habilitar)

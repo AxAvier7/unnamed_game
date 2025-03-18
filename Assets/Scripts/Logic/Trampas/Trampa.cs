@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CasillaTrampa : Casilla
 {
@@ -23,7 +24,7 @@ public class CasillaTrampa : Casilla
 
     public void ActivarTrampa(FichaComponent ficha)
     {
-        if (!Activada)
+        if (!Activada && ficha.FichaData.Owner.turnosRestantesInmunidad == 0)
         {
             Activada = true;
             FichaController fichaController = ficha.GetComponent<FichaController>();
@@ -80,7 +81,19 @@ public class CasillaTrampa : Casilla
                     break;
             }
             TrapManager.Instance.ShowTrapEffect(message);
-            GetComponent<SpriteRenderer>().color = Color.gray;
+            Destroy(this);
+            TrapManager.Instance.EliminarTrampa(Coordenadas);
         }
+    }
+    public void InicializarCasillaTrampa(Casilla original)
+    {
+        Activada = false;
+        Coordenadas = original.Coordenadas;
+        EsTransitable = original.EsTransitable;
+        EsInicio = original.EsInicio;
+        EsSalida = original.EsSalida;
+        efectoTrampa = TipoEfectoTrampa.Teletransportar;
+        GetComponent<Image>().color = Color.magenta;
+        TrapManager.Instance.RegistrarTrampa(Coordenadas, this);
     }
 }

@@ -415,7 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: /tp
+  description: Se teletransporta y esas cosas
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &265341644
 MonoBehaviour:
@@ -730,7 +730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Truco o trato
+  description: "Deja una mina por ah\xED por donde pasa"
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &306988978
 MonoBehaviour:
@@ -1136,7 +1136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Una ficha peculiarmente rapida
+  description: "Una ficha peculiarmente r\xE1pida"
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &480472453
 MonoBehaviour:
@@ -1386,7 +1386,7 @@ GameObject:
   - component: {fileID: 753224591}
   - component: {fileID: 753224590}
   m_Layer: 5
-  m_Name: InvisibilityChip
+  m_Name: ThunderChip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1505,7 +1505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: No deberias estar viendo esto
+  description: Una ficha violenta
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &753224590
 MonoBehaviour:
@@ -2033,8 +2033,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -910, y: 290}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -885, y: 252}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1069827697
 MonoBehaviour:
@@ -2344,7 +2344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Una ficha que se reduce su cooldown
+  description: Una ficha que reduce el cooldown al resto de fichas
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &1099043817
 MonoBehaviour:
@@ -2389,7 +2389,7 @@ GameObject:
   - component: {fileID: 1125930866}
   - component: {fileID: 1125930867}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: TrapManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2565,10 +2565,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 73c1ecf69dfba2d42b2a80f4d73ef939, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 40
     m_Alignment: 4
@@ -2577,7 +2577,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Activar habilidad
 --- !u!222 &1197499789
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2698,6 +2698,7 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 1, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
   - {r: 1, g: 0, b: 1, a: 1}
+  trapPrefab: {fileID: 4450976582257721344, guid: 6fa1e5da38b20c74a8bf7d5c26fd1b93, type: 3}
 --- !u!1 &1247757600
 GameObject:
   m_ObjectHideFlags: 0
@@ -3046,7 +3047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a6e8c1a20892b4191057011fb852ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Lo que usan los cobardes en los souls
+  description: La llaman vacuna porque te hace inmune
   descriptionPrefab: {fileID: 3061371527244046138, guid: e921ab3a0cfc6964b878041b5031080a, type: 3}
 --- !u!114 &1420087495
 MonoBehaviour:
@@ -3353,7 +3354,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 73c1ecf69dfba2d42b2a80f4d73ef939, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -3820,7 +3821,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Confrimar movimiento
+  m_Text: Confirmar movimiento
 --- !u!222 &1929851480
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -26,14 +26,6 @@ public abstract class Ficha //esta es la clase que define a las fichas basicas. 
 
     public abstract void Skill();
 
-    public void ResetTurn()
-    {
-        currentSteps = 0;
-        moveConfirmation = false;
-    }
-
-    public bool CanMove(){  return currentSteps < speed && !moveConfirmation;   }
-    public void ConfirmMove(){  moveConfirmation = true;    }
     public void ReducirCooldownDeFichas(int cantidad)
     {
         if(Owner == null) return;
@@ -69,19 +61,26 @@ public class SpeedChip : Ficha
     {
         speed *= 2;
         cooldown = 3;
-        Debug.Log("Velocidad duplicada");
+        Debug.Log($"Velocidad de la ficha {label} de {Owner.name} duplicada");
     }
 }
 
-public class InvisibilityChip : Ficha
+public class ThunderChip : Ficha
 {
-    public InvisibilityChip(int speed, int cooldown, string label) : base(speed, cooldown, label)
-    {Tipo = TipoFicha.Invisibility;}
+    public ThunderChip(int speed, int cooldown, string label) : base(speed, cooldown, label)
+    {Tipo = TipoFicha.Thunder;}
     public override void Skill()
     {
-        GameContext.Instance.CurrentPlayer.isInvisible = true;
-        cooldown = 5;
-        Debug.Log("El jugador se ha vuelto invisible.");
+        foreach(Player player in GameContext.Instance.players)
+            {
+                if(player != this.Owner)
+                    player.isParalized = true;
+            }
+
+            TurnManager.Instance.turnosExtraRestantes = 1;
+            speed *= 2;
+            cooldown = 4;
+            Debug.Log($"{Owner.name} ha paralizado a los rivales y ahora es más rapido");
     }
 }
 
@@ -91,8 +90,9 @@ public class ShieldChip : Ficha
     {Tipo = TipoFicha.Shield;}
     public override void Skill()
     {
+        Owner.turnosRestantesInmunidad = 3;
         cooldown = 5;
-        Debug.Log("Escudo activado.");
+        Debug.Log($"{Owner.name} se ha vuelto inmune por 3 turnos.");    
     }
 }
 
@@ -105,7 +105,7 @@ public class TeleportChip : Ficha
         Casilla destino = MazeController.Instance.GetCasillaAleatoriaValida();
         Controller.MoverFichaACasilla(destino);
         cooldown = 5;
-        Debug.Log("El jugador se ha teletransportado.");
+        Debug.Log($"{Owner.name} se ha teletransportado.");
     }
 }
 
@@ -115,7 +115,10 @@ public class TrapChip : Ficha
     {Tipo = TipoFicha.Trap;}
     public override void Skill()
     {
-        Debug.Log("Trampa colocada.");
+        Vector2Int posicionActual = currentPosition;
+        MazeController.Instance.PlaceTrap(posicionActual);
+        cooldown = 4;
+        Debug.Log($"{Owner.name} coloco una trampa en ({posicionActual.x},{posicionActual.y})");
     }
 }
 
@@ -125,7 +128,7 @@ public enum TipoFicha
     Cooldown,
     Speed,
     Teleport,
-    Invisibility,
+    Thunder,
     Shield,
     Trap
 }

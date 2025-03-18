@@ -80,7 +80,7 @@ public class FichaController : MonoBehaviour
             if(TrapManager.Instance.HayTrampaEn(coordenadasFicha, out CasillaTrampa trampa))
             {
                 FichaComponent fichaComponent = GetComponent<FichaComponent>();
-                if(fichaComponent != null /*&& !GameContext.Instance.CurrentPlayer.isInvisible*/)
+                if(fichaComponent != null)
                 {
                     trampa.ActivarTrampa(fichaComponent);
                     TrapManager.Instance.ShowTrapEffect($"¡Trampa: {trampa.efectoTrampa}!");

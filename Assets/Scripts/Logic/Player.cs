@@ -4,12 +4,13 @@ public abstract class Player //clase abstracta que define a los jugadores
 {
     public string name;    
     public List<Ficha> fichas;
-    public bool isInvisible;
+    public int turnosRestantesInmunidad;
+    public bool isParalized;
 
     public Player(string name)
     {
         this.name = name;
-        isInvisible = false;
+        turnosRestantesInmunidad = 0;
         fichas = new List<Ficha>();
     }
 }

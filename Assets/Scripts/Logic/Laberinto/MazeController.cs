@@ -21,7 +21,8 @@ public class MazeController : MonoBehaviour
     {
         if(Instance == null)
             Instance = this;
-        else    Destroy(gameObject);
+        else   
+            Destroy(gameObject);
     }
     
     void Start()
@@ -120,5 +121,15 @@ public class MazeController : MonoBehaviour
                 return p.prefab;
         }
         return null;
+    }
+
+    public void PlaceTrap(Vector2Int position)
+    {
+        Casilla targetCasilla = GetCasilla(position.x, position.y);
+        if (targetCasilla == null || targetCasilla.EsTrampa) return;
+        CasillaTrampa nuevaTrampa = targetCasilla.gameObject.AddComponent<CasillaTrampa>();
+        nuevaTrampa.InicializarCasillaTrampa(targetCasilla);    
+        GameContext.Instance.maze[position.x, position.y] = nuevaTrampa;
+        Debug.Log($"Trampa colocada en {position}");
     }
 }
