@@ -1,137 +1,120 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Collections;
 
 public class FichaController : MonoBehaviour
 {
     private FichaComponent fichaComponent;
-    public InputField inputX;
-    public InputField inputY;
-    public Button moveButton;
     public Ficha fichaData;
     private Casilla casillaActual;
     private MazeController mazeController;
-    public GameObject SkillButton;
+
+    void Update()
+    {
+        if(TurnManager.Instance.FichaSeleccionada == fichaData)
+        {
+            if(!TurnManager.Instance.EsperandoSeleccion) 
+                MovimientoWASD();
+                
+            if(Input.GetKeyDown(KeyCode.Space)) 
+                ConfirmarMovimiento();
+        }    
+    }
+
+    private void MovimientoWASD()
+    {
+        if(GameContext.Instance.gameStarted && fichaData.currentSteps >= fichaData.speed) return;
+        Vector2Int direccion = Vector2Int.zero;
+
+        if (Input.GetKeyDown(KeyCode.W)) direccion = Vector2Int.left; //Subir
+        else if (Input.GetKeyDown(KeyCode.S)) direccion = Vector2Int.right; //Bajar
+        else if (Input.GetKeyDown(KeyCode.A)) direccion = Vector2Int.down; //Izquierda
+        else if (Input.GetKeyDown(KeyCode.D)) direccion = Vector2Int.up; //Derecha
+
+        if(direccion != Vector2Int.zero)
+        {
+            IntentarMover(direccion);
+        }
+    }
+
+    private void IntentarMover(Vector2Int direccion)
+    {
+        if(fichaData.CanMove())
+        {
+            Vector2Int targetPos = fichaData.currentPosition + direccion;
+            Casilla targetCasilla = MazeController.Instance.GetCasilla(targetPos.x, targetPos.y);
+
+            if(targetCasilla != null && (targetCasilla.EsTransitable || (targetCasilla is CasillaTrampa trampa && !trampa.Activada)))
+            {
+                if(fichaData.historialMovimientos.Count > 0 && targetPos == fichaData.historialMovimientos.Peek())
+                {
+                    fichaData.currentPosition = targetPos;
+                    fichaData.historialMovimientos.Pop();
+                    MoverFicha(targetCasilla);
+                }
+                else
+                {
+                    if(fichaData.currentSteps < fichaData.speed)
+                    {
+                        fichaData.historialMovimientos.Push(fichaData.currentPosition);
+                        fichaData.currentSteps++;
+                        fichaData.currentPosition = targetPos;
+                        MoverFicha(targetCasilla);
+                    }
+                }
+                ActualizarFeedbackUI();
+            }            
+            else
+            {
+                StartCoroutine(MostrarMovimientoInvalido(targetCasilla));
+            }
+        }
+    }
+
+    private void MoverFicha(Casilla destino)
+    {
+        if (destino == null || !destino.EsTransitable)
+        {
+            TurnManager.Instance.turnText.text = "Casilla destino inválida";
+            return;
+        }
+
+        transform.SetParent(destino.transform);
+        transform.localPosition = Vector3.zero;
+        casillaActual = destino;
+        fichaData.currentPosition = destino.Coordenadas;
+        if (destino.EsSalida)
+        {
+            string nombreJugador = fichaData.Owner.name;
+            Victory.Instance.ShowVictory(nombreJugador);
+        }
+    }
+
+    private void ActualizarFeedbackUI()
+    {
+        TurnManager.Instance.turnText.text = $"Movimientos restantes: {fichaData.speed - fichaData.currentSteps}/{fichaData.speed}";
+    }
+
+    public void ConfirmarMovimiento()
+    {
+        fichaData.ConfirmMove();
+        fichaData.ResetTurn();
+        TurnManager.Instance.FinalizarAccion();
+        TurnManager.Instance.ActualizarUI();
+
+        if (casillaActual != null && casillaActual is CasillaTrampa)
+        {
+            CasillaTrampa trampa = (CasillaTrampa)casillaActual;
+            trampa.ActivarTrampa(fichaComponent);
+        }
+    }
 
     public void Initialize(FichaComponent component)
     {
-    if(component == null)
-    {
-        Debug.LogError("Error: FichaComponent no asignado en FichaController.");
-        return;
-    }
-
-    if(component.FichaData == null)
-    {
-        Debug.LogError("Error: FichaData en FichaComponent es null.");
-        return;
-    }
         fichaComponent = component;
         fichaData = component.FichaData;
         casillaActual = transform.parent.GetComponent<Casilla>();
         mazeController = MazeController.Instance;
-        moveButton.onClick.AddListener(TryMove);
-    }
-
-    private void TryMove()
-    {
-        if(!int.TryParse(inputX.text, out int destinoX) || !int.TryParse(inputY.text, out int destinoY))
-        {
-            Debug.LogError("Las coordenadas ingresadas no son válidas.");
-            return;
-        }
-
-        Casilla casillaDestino = mazeController.GetCasilla(destinoX, destinoY);
-        if(casillaDestino == null)
-        {
-            Debug.LogError($"No existe una casilla en las coordenadas ({destinoX}, {destinoY}).");
-            return;
-        }
-
-        if(!casillaDestino.EsTransitable)
-        {
-            Debug.LogError($"La casilla ({destinoX}, {destinoY}) no es transitable.");
-            return;
-        }
-
-        if(PuedeLlegarA(casillaActual, casillaDestino, fichaData.speed))
-        {
-            MoverFicha(casillaDestino);
-        }
-        else
-        {
-            Debug.LogError($"La ficha {fichaData.label} no puede llegar a ({destinoX}, {destinoY}) con su velocidad de {fichaData.speed}.");
-            Debug.Log($"La ficha esta en {fichaData.currentPosition.x}, {fichaData.currentPosition.y}");
-        }
-    }
-
-    private void MoverFicha(Casilla nuevaCasilla)
-    {
-        if(!TurnManager.Instance.EsperandoSeleccion && 
-        TurnManager.Instance.FichaSeleccionada == this.fichaData)
-        {
-            fichaData.currentSteps += CalcularDistancia(casillaActual, nuevaCasilla);
-            transform.SetParent(nuevaCasilla.transform);
-            transform.localPosition = Vector3.zero;
-            casillaActual = nuevaCasilla;
-            Vector2Int coordenadasFicha = nuevaCasilla.Coordenadas;
-            fichaData.currentPosition = coordenadasFicha;
-
-            if(TrapManager.Instance.HayTrampaEn(coordenadasFicha, out CasillaTrampa trampa))
-            {
-                FichaComponent fichaComponent = GetComponent<FichaComponent>();
-                if(fichaComponent != null)
-                {
-                    trampa.ActivarTrampa(fichaComponent);
-                    TrapManager.Instance.ShowTrapEffect($"¡Trampa: {trampa.efectoTrampa}!");
-                }
-            }
-
-            if(nuevaCasilla.EsSalida)
-            {
-                string nombreJugador = "Jugador Desconocido";
-                foreach (var player in GameContext.Instance.players)
-                {
-                    if (player.fichas.Contains(fichaData))
-                    {
-                        nombreJugador = player.name;
-                        break;
-                    }
-                }
-                Victory.Instance.ShowVictory(nombreJugador);
-            }
-            GetComponent<Image>().color = GetComponent<FichaComponent>().colorOriginal;
-            TurnManager.Instance.EndTurn();
-            Debug.Log($"Ficha {fichaData.label} movida a casilla ({nuevaCasilla.Coordenadas.x}, {nuevaCasilla.Coordenadas.y}).");
-        }
-    }
-
-    private bool PuedeLlegarA(Casilla origen, Casilla destino, int maxPasos)
-    {
-        List<Casilla> visitadas = new List<Casilla>();
-        return CheckDistance(origen, destino, maxPasos, visitadas);
-    }
-
-    private bool CheckDistance(Casilla actual, Casilla destino, int pasosRestantes, List<Casilla> visitadas)
-    {
-        if(actual == destino) return true;
-        if(pasosRestantes <= 0) return false;
-        visitadas.Add(actual);
-
-        foreach(Casilla vecino in mazeController.GetCasillasVecinas(actual))
-        {
-            if(!visitadas.Contains(vecino) && vecino.EsTransitable)
-            {
-                if(CheckDistance(vecino, destino, pasosRestantes - 1, visitadas))
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    private int CalcularDistancia(Casilla origen, Casilla destino)
-    {
-        return Mathf.Abs(origen.Coordenadas.x - destino.Coordenadas.x) + Mathf.Abs(origen.Coordenadas.y - destino.Coordenadas.y);
     }
 
     public void ActualizarPosicion(Casilla nuevaCasilla)
@@ -172,5 +155,16 @@ public class FichaController : MonoBehaviour
             fichaActual.Skill();
             TurnManager.Instance.EndTurn();
         }  
+    }
+    private IEnumerator MostrarMovimientoInvalido(Casilla casilla)
+    {
+        if (casilla != null)
+        {
+            Image img = casilla.GetComponent<Image>();
+            Color original = img.color;
+            img.color = Color.red;
+            yield return new WaitForSeconds(0.5f);
+            img.color = original;
+        }
     }
 }

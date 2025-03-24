@@ -34,12 +34,12 @@ public class CasillaTrampa : Casilla
             switch (efectoTrampa)
             {
                 case TipoEfectoTrampa.MultiplicarCooldown:
-                    ficha.FichaData.cooldown *= Modificador;
+                    ficha.FichaData.cooldown *= 2;
                     message = $"{ficha.FichaData.label} - Cooldown x{Modificador}!";
                     break;
 
                 case TipoEfectoTrampa.DividirVelocidad:
-                    ficha.FichaData.speed = Mathf.Max(1, ficha.FichaData.speed / Modificador);
+                    ficha.FichaData.speed = Mathf.Max(1, ficha.FichaData.speed / 2);
                     message = $"{ficha.FichaData.label} - Velocidad reducida!";
                     break;
 
@@ -81,7 +81,8 @@ public class CasillaTrampa : Casilla
                     break;
             }
             TrapManager.Instance.ShowTrapEffect(message);
-            Destroy(this);
+            EsTrampa = false;
+            GetComponent<Image>().color = Color.white;
             TrapManager.Instance.EliminarTrampa(Coordenadas);
         }
     }

@@ -530,7 +530,6 @@ MonoBehaviour:
   inputX: {fileID: 1276621855}
   inputY: {fileID: 286735334}
   moveButton: {fileID: 585323149}
-  SkillButton: {fileID: 1069827695}
 --- !u!1 &286735332
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,7 +828,6 @@ MonoBehaviour:
   inputX: {fileID: 1276621855}
   inputY: {fileID: 286735334}
   moveButton: {fileID: 585323149}
-  SkillButton: {fileID: 1069827695}
 --- !u!114 &306988983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1169,7 +1167,6 @@ MonoBehaviour:
   inputX: {fileID: 1276621855}
   inputY: {fileID: 286735334}
   moveButton: {fileID: 585323149}
-  SkillButton: {fileID: 1069827695}
 --- !u!1 &585323147
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,7 +1535,6 @@ MonoBehaviour:
   inputX: {fileID: 1276621855}
   inputY: {fileID: 286735334}
   moveButton: {fileID: 585323149}
-  SkillButton: {fileID: 1069827695}
 --- !u!1 &809917122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1900,7 +1896,6 @@ MonoBehaviour:
   inputX: {fileID: 1276621855}
   inputY: {fileID: 286735334}
   moveButton: {fileID: 585323149}
-  SkillButton: {fileID: 1069827695}
 --- !u!114 &861071817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2130,6 +2125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aec083a0f5a928846b094dda70c64223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 1069827697}
 --- !u!1 &1081501436
 GameObject:
   m_ObjectHideFlags: 0
@@ -2377,7 +2373,6 @@ MonoBehaviour:
   inputX: {fileID: 1276621855}
   inputY: {fileID: 286735334}
   moveButton: {fileID: 585323149}
-  SkillButton: {fileID: 1069827695}
 --- !u!1 &1125930865
 GameObject:
   m_ObjectHideFlags: 0
@@ -2698,7 +2693,6 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 1, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
   - {r: 1, g: 0, b: 1, a: 1}
-  trapPrefab: {fileID: 4450976582257721344, guid: 6fa1e5da38b20c74a8bf7d5c26fd1b93, type: 3}
 --- !u!1 &1247757600
 GameObject:
   m_ObjectHideFlags: 0
@@ -3080,7 +3074,6 @@ MonoBehaviour:
   inputX: {fileID: 1276621855}
   inputY: {fileID: 286735334}
   moveButton: {fileID: 585323149}
-  SkillButton: {fileID: 1069827695}
 --- !u!1 &1427886692
 GameObject:
   m_ObjectHideFlags: 0
@@ -3157,6 +3150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CoordsPanel: {fileID: 1685548640}
   turnText: {fileID: 1540766770}
+  turnosExtraRestantes: 0
 --- !u!1 &1455399863
 GameObject:
   m_ObjectHideFlags: 0

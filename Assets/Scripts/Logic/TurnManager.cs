@@ -8,7 +8,6 @@ public class TurnManager : MonoBehaviour
     public Ficha FichaSeleccionada {get; private set;}
     public FichaController FichaSeleccionadaCont {get; private set;}
     public bool EsperandoSeleccion {get; private set;}
-    public GameObject CoordsPanel;
     public Text turnText;
     public int turnosExtraRestantes = 0;
 
@@ -24,10 +23,29 @@ public class TurnManager : MonoBehaviour
 
     public void StartTurn(Player player)
     {
+        foreach (Player p in GameContext.Instance.players)
+        {
+            foreach (Ficha ficha in p.fichas)
+            {
+                if (ficha.visual != null && ficha.visual.button != null)
+                {
+                    ficha.visual.button.interactable = false;
+                }
+            }
+        }        
         CurrentPlayer = player;
         EsperandoSeleccion = true;
         turnText.text = $"Es turno de {player.name}. Por favor selecciona una ficha";
         HabilitarSeleccionFichas(true);
+        foreach (Ficha ficha in player.fichas)
+        {
+            ficha.ResetTurn();
+            if (ficha.visual != null && ficha.visual.button != null)
+            {
+                ficha.visual.button.interactable = true;
+            }
+        }
+        ActualizarUI();
     }
 
     public void EndTurn()
@@ -49,11 +67,13 @@ public class TurnManager : MonoBehaviour
             {
                 GameContext.Instance.currentTurns++;
             }
+
             if (CurrentPlayer != null && CurrentPlayer.turnosRestantesInmunidad > 0)
             {
                 CurrentPlayer.turnosRestantesInmunidad--;
                 Debug.Log($"Inmunidad restante: {CurrentPlayer.turnosRestantesInmunidad} turnos");
             }
+
             foreach (Player player in GameContext.Instance.players)
             {
                 foreach (Ficha ficha in player.fichas)
@@ -61,6 +81,7 @@ public class TurnManager : MonoBehaviour
                     ficha.cooldown = Mathf.Max(0, ficha.cooldown - 1);
                 }
             }
+
             int nextIndex = (currentPlayerIndex + 1) % GameContext.Instance.players.Count;
             Player nextPlayer = GameContext.Instance.players[nextIndex];
             while(nextPlayer.isParalized)
@@ -69,6 +90,7 @@ public class TurnManager : MonoBehaviour
                 nextIndex = (nextIndex + 1) % GameContext.Instance.players.Count;
                 nextPlayer = GameContext.Instance.players[nextIndex];
             }
+
             StartTurn(nextPlayer);
             turnText.text = $"Turno de: {CurrentPlayer.name} | Ronda: {GameContext.Instance.currentTurns}";    
         }
@@ -78,17 +100,19 @@ public class TurnManager : MonoBehaviour
     {
         if(EsperandoSeleccion && ficha.Owner == CurrentPlayer)
         {
-            if(FichaSeleccionada != null && FichaSeleccionada.visual != null)
+            if (FichaSeleccionada != null)
             {
-                FichaSeleccionadaCont = ficha.visual.GetComponent<FichaController>();
                 FichaSeleccionada.visual.OnDeselected();
+                FichaSeleccionadaCont = null;
             }
+
             FichaSeleccionada = ficha;
+            FichaSeleccionadaCont = ficha.visual.GetComponent<FichaController>();
             EsperandoSeleccion = false;
-            Debug.Log ($"{CurrentPlayer.name} ha seleccionado {ficha.label}");
+            Debug.Log($"{CurrentPlayer.name} seleccionó: {ficha.label}");
             ficha.visual.OnSelected();
             HabilitarSeleccionFichas(false);
-            HabilitarAccionesFicha(true);
+            ActualizarUI();
         }
     }
 
@@ -103,8 +127,27 @@ public class TurnManager : MonoBehaviour
         }    
     }
 
-    private void HabilitarAccionesFicha(bool habilitar)
+    public void ActualizarUI()
     {
-        CoordsPanel.SetActive(habilitar);
+        if (FichaSeleccionada != null && CurrentPlayer != null)
+        {
+            turnText.text = $"Turno: {CurrentPlayer.name} | Movimientos: {FichaSeleccionada.speed - FichaSeleccionada.currentSteps}/{FichaSeleccionada.speed}";
+        }
+        else
+        {
+            turnText.text = $"Turno: {CurrentPlayer?.name ?? "Ninguno"}";
+        }
+    }
+
+    public void FinalizarAccion()
+    {
+        if(FichaSeleccionada != null)
+        {
+            FichaSeleccionada.ResetTurn();
+            FichaSeleccionada.visual.OnDeselected();
+            FichaSeleccionada = null;
+        }
+        EsperandoSeleccion = true;
+        EndTurn();    
     }
 }

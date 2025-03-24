@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Ficha //esta es la clase que define a las fichas basicas. Con esta creare a fichas que no tengan ninguna habilidad
@@ -14,6 +15,7 @@ public abstract class Ficha //esta es la clase que define a las fichas basicas. 
     public FichaComponent visual;
     public bool CanUseSkill => cooldown <= 0;
     public TipoFicha Tipo { get; set; }
+    public Stack<Vector2Int> historialMovimientos = new Stack<Vector2Int>();
     
     public Ficha(int speed, int cooldown, string label)
     {
@@ -24,7 +26,16 @@ public abstract class Ficha //esta es la clase que define a las fichas basicas. 
         moveConfirmation = false;
     }
 
+    public bool CanMove(){  return currentSteps < speed && !moveConfirmation;   }
+    public void ConfirmMove(){  moveConfirmation = true;    }
     public abstract void Skill();
+
+    public void ResetTurn()
+    {
+        currentSteps = 0;
+        moveConfirmation = false;
+        historialMovimientos.Clear();
+    }
 
     public void ReducirCooldownDeFichas(int cantidad)
     {
