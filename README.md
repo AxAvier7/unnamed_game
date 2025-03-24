@@ -16,8 +16,8 @@ Este repositorio contiene un .docx que resume qué uso tiene cada script. Ademá
       <summary>2) Utilizando el .exe</summary>
         -Entrar al sitio de Mega => https://mega.nz
         -Crear cuenta (no necesario)
-        -Acceder al siguiente sitio => https://mega.nz/folder/EEByBKbS
-        ->Introducir la siguiente clave: nEzZ51wy0a5IgmdX1nfb4Q
+        -Acceder al siguiente sitio => https://mega.nz/file/BJpFDToJ
+        ->Introducir la siguiente clave: c9UnTS5s1RTSOwaeMMu5kTzXJhna9K24mPItyLS-9sY
         -->Descargar el archivo .zip
         --->Descomprimirlo
         ---->Ejecutar el .exe
